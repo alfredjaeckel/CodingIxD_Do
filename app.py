@@ -45,8 +45,22 @@ with app.app_context():
     db.create_all()
 
 
+def phys():
+    while True:
+        print("hi")
+        time.sleep(1)
+
+
+process = multiprocessing.Process(target=phys)
+
+
+
+
 @app.route('/', methods=["GET", "POST"])
 def todo():
+    if not process.is_alive():
+        process.start()
+
     committed_items = Item.query.filter(Item.committed == True)
     todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
     completed_items = Item.query.filter(Item.complete == True)
