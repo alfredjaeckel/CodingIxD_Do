@@ -3,33 +3,37 @@ import time
 
 #raspberry GPIO
 
-GPIO.setmode(GPIO.BOARD)
-control_pins = [7,11,13,15]
-for pin in control_pins:
-  GPIO.setup(pin, GPIO.OUT)
-  GPIO.output(pin, 0)
-halfstep_seq = [
-  [1,0,0,0],
-  [1,1,0,0],
-  [0,1,0,0],
-  [0,1,1,0],
-  [0,0,1,0],
-  [0,0,1,1],
-  [0,0,0,1],
-  [1,0,0,1]
-]
-halfstep2_seq = [
-  [0,0,0,1],
-  [0,0,1,1],
-  [0,0,1,0],
-  [0,1,1,0],
-  [0,1,0,0],
-  [1,1,0,0],
-  [1,0,0,0],
-  [1,0,0,1]
-]
+
 
 def move():
+  GPIO.setmode(GPIO.BOARD)
+  control_pins = [7, 11, 13, 15]
+  for pin in control_pins:
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, 0)
+
+  halfstep_seq = [
+    [1, 0, 0, 0],
+    [1, 1, 0, 0],
+    [0, 1, 0, 0],
+    [0, 1, 1, 0],
+    [0, 0, 1, 0],
+    [0, 0, 1, 1],
+    [0, 0, 0, 1],
+    [1, 0, 0, 1]
+  ]
+  halfstep2_seq = [
+    [0, 0, 0, 1],
+    [0, 0, 1, 1],
+    [0, 0, 1, 0],
+    [0, 1, 1, 0],
+    [0, 1, 0, 0],
+    [1, 1, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 1]
+  ]
+
+
   while True:
     for i in range(100):
       for halfstep in range(8):
