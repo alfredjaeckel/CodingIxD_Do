@@ -33,7 +33,6 @@ def move():
         [1, 0, 0, 1]
     ]
 
-
     while True:
         for i in range(200):
             for halfstep in range(8):
