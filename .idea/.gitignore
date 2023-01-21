@@ -1,0 +1,20 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+# Database
+/instance/
+#venv
+/venv/
+/CodingIxD_Do.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/.gitignore
+/.idea/inspectionProfiles/profiles_settings.xml
+/instance/toDoListDB.db
+/.idea/vcs.xml
+
