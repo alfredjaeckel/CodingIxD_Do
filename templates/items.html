@@ -1,0 +1,94 @@
+{% extends "/base.html" %}
+
+{% block content %}
+
+<div class="item-grid-container">
+
+    <div class ="item-name">
+
+        <h1 style = "text-align:left; ">{{item.name | title}} </h1>
+
+    </div>
+
+    <div class = "item-info">
+
+      <div class = "item-description">
+        <h3>Edit</h3>
+        <form action = "{{url_for('edit_item_submit', item_id = item.id)}}" class="editform"  method="POST" >
+          {{ edit_item.hidden_tag() }}
+          <table>
+            <tbody>
+              <tr>
+                <td>{{edit_item.name.label}}</td>
+                <td>{{edit_item.name()}}</td>
+              </tr>
+              <tr>
+                <td>{{edit_item.submit()}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+
+    </div>
+
+    <div class = "steps-container">
+    {% if steps[0]%}
+    <table id = "steptable">
+        <tbody>
+          <tr class = "step-container">
+            <td class = "step-number"><h2>Steps</h2></td>
+          </tr>
+     {% endif %}
+
+      {% for step in steps %}
+        <tr class = "step-container">
+        <td class = "step-name">{{step.name}}</td>
+        {% if step.complete == True %}
+        <td class = "step-complete"><div class = "step-traffic-light" style = "background-color:#5cb85c;"></div></td>
+        {% elif step.complete == False %}
+        <td class = "step-complete" > <div class = "step-traffic-light" style = "background-color:#d9534f;"></div></td>
+        {% endif %}
+        <td class = "step-actions">
+        <form method="POST">
+          {% if step.complete == False %}
+          <input type="submit" class="pos" name="{{step.id}}" value="Done">
+          {% elif step.complete == True %}
+          <input type="submit" class="neg" name="{{step.id}}" value="Undo">
+          {% endif %}
+          <input type="submit" class="neg" name="{{step.id}}" value="Remove">
+        </form>
+        </td>
+      {% endfor %}
+    </tr>
+  </table>
+
+
+      <form action = "{{url_for('add_step_submit', item_id = item.id)}}" class="addform"  method="POST" >
+          <h4> Add Steps </h4>
+          {{ add_step.hidden_tag() }}
+          <table>
+            <tbody>
+              <tr>
+                <td>{{add_step.name.label}}</td>
+                <td>{{add_step.name()}}</td>
+
+              </tr>
+              <tr>
+                <td>{{add_step.submit()}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+    </div>
+
+    <div class = item-btns">
+      <form method="POST">
+        <input type="submit" class="neg" name="{{item.id}}" value="Delete">
+        <input type="submit" class="neutral" name="{{item.id}}" value="Return">
+      </form>
+    </div>
+
+  </div>
+
+{% endblock %}
