@@ -184,7 +184,8 @@ achieve_btn = 40
 
 def achievement(ev=None):
     print("achievement")
-    return redirect(url_for("todo"))
+    with app.app_context():
+        return redirect(url_for("todo"))
 
 
 GPIO.setup(achieve_btn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
