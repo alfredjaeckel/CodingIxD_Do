@@ -30,11 +30,10 @@ def move():
         [1, 0, 0, 0],
         [1, 0, 0, 1]
     ]
-    while True:
-        for i in range(100):
-            for halfstep in range(8):
-                for pin in range(4):
-                    GPIO.output(control_pins[pin], halfstep2_seq[halfstep][pin])
-                time.sleep(0.001)
-
+    for i in range(100):
+        for halfstep in range(8):
+            for pin in range(4):
+                GPIO.output(control_pins[pin], halfstep2_seq[halfstep][pin])
+            time.sleep(0.001)
+    GPIO.output(control_pins, [0,0,0,0])
 

@@ -55,13 +55,14 @@ with app.app_context():
 def phys():
     contr.move()
 
+
 process = multiprocessing.Process(target=phys)
 
 
 @app.route('/', methods=["GET", "POST"])
 def todo():
-    # if not process.is_alive():
-        # process.start()
+    if not process.is_alive():
+        process.start()
 
     committed_items = Item.query.filter(Item.committed == True)
     todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
