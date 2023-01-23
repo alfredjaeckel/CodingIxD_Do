@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET_PROJECT'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toDoListDB.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
+app.config['SERVER_NAME'] = '192.168.178.78:5000'
 
 db = SQLAlchemy(app)
 
