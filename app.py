@@ -62,7 +62,6 @@ process = multiprocessing.Process(target=phys)
 @app.route('/', methods=["GET", "POST"])
 def todo():
     if not process.is_alive():
-        process.kill()
         process.start()
 
     committed_items = Item.query.filter(Item.committed == True)

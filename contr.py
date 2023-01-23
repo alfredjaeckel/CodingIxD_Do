@@ -37,3 +37,5 @@ def move():
             time.sleep(0.001)
     GPIO.output(control_pins, [0,0,0,0])
 
+    return 0
+
