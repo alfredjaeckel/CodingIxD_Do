@@ -181,9 +181,11 @@ def add_item_submit():
 
 @app.route("/check_achievement", methods=["GET","POST"])
 def check_achievement():
+    global achievement_flag
     if not achievement_flag:
         flask.abort(404)
     else:
+        achievement_flag = True
         return redirect(url_for("todo"))
 
 
