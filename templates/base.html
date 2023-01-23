@@ -11,7 +11,7 @@
 
   <script>
     var url = "{{url_for('check_achievement')}}";
-    while(true) {
+    setInterval(() => {
       fetch(url)
               .then(response => {
                 if (response.ok) {
@@ -23,8 +23,7 @@
               .catch(error => {
                 console.log("Error: " + error);
               });
-    }
-
+    }, 1000);
   </script>
 
 </html>
