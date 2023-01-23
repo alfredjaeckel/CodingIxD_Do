@@ -3,6 +3,7 @@ import multiprocessing
 import sys, time
 
 import RPi.GPIO as GPIO
+import flask
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
@@ -181,7 +182,7 @@ def add_item_submit():
 @app.route("/check_achievement", methods=["GET","POST"])
 def check_achievement():
     if not achievement_flag:
-        return 404
+        flask.abort(404)
     else:
         return redirect(url_for("todo"))
 
