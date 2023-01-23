@@ -11,11 +11,12 @@
 
   <script>
     var url = "{{url_for('check_achievement')}}";
+    var gourl = "{{url_for('achievement')}}";
     setInterval(() => {
       fetch(url)
               .then(response => {
                 if (response.ok) {
-                  location.href = url;
+                  location.href = gourl;
                 } else {
                   //nothing
                 }
