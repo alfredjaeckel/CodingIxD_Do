@@ -8,4 +8,22 @@
     {% block content %}
     {% endblock %}
   </body>
+
+  <script>
+    var url = "{{url_for('check_achievement')}}";
+    function UrlExists(url) {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        if (http.status !== 404)
+            return true;
+        else
+            return false;
+    }
+    while(true) {
+      if (UrlExists(url)) {
+        window.location.replace(url);
+      }
+    }
+  </script>
 </html>

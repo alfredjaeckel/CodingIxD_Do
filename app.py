@@ -19,7 +19,7 @@ app.config['SERVER_NAME'] = '192.168.178.78:5000'
 
 db = SQLAlchemy(app)
 
-
+achievement_flag = False
 
 
 class Item(db.Model):
@@ -178,17 +178,28 @@ def add_item_submit():
         return redirect(url_for("todo"))
 
 
+@app.route("/check_achievement", methods=["GET","POST"])
+def check_achievement():
+    if not achievement_flag:
+        return 404
+    else:
+        return redirect(url_for("todo"))
+
+
+
+
+
+
 GPIO.setmode(GPIO.BOARD)
 
 achieve_btn = 40
 
 
-@app.route('/achievement', methods=["GET", "POST"])
-def achievement(ev=None):
-    print("achievement")
-    with app.app_context():
-        return redirect(url_for("todo"))
+
+def achievement_press(ev=None):
+    global achievement_flag
+    achievement_flag = True
 
 
 GPIO.setup(achieve_btn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement, bouncetime=20)
+GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement_press, bouncetime=20)
