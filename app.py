@@ -189,6 +189,12 @@ def check_achievement():
         return redirect(url_for("todo"))
 
 
+@app.route("/achievement", methods=["GET","POST"])
+def achievement():
+    return redirect(url_for("todo"))
+
+
+
 GPIO.setmode(GPIO.BOARD)
 
 achieve_btn = 40
