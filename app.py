@@ -56,11 +56,9 @@ def phys():
     contr.move()
 
 
-process = multiprocessing.Process(target=phys)
-
-
 @app.route('/', methods=["GET", "POST"])
 def todo():
+    process = multiprocessing.Process(target=phys)
     if not process.is_alive():
         process.start()
 
