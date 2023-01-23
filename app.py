@@ -185,7 +185,7 @@ def check_achievement():
     if not achievement_flag:
         flask.abort(404)
     else:
-        achievement_flag = True
+        achievement_flag = False
         return redirect(url_for("todo"))
 
 
