@@ -11,18 +11,19 @@
 
   <script>
     var url = "{{url_for('check_achievement')}}";
-
-    fetch(url)
-            .then(response => {
-              if(response.ok) {
-                location.href = url;
-              } else {
-                //nothing
-              }
-            })
-            .catch(error => {
-              console.log("Error: " + error);
-            });
+    while(true) {
+      fetch(url)
+              .then(response => {
+                if (response.ok) {
+                  location.href = url;
+                } else {
+                  //nothing
+                }
+              })
+              .catch(error => {
+                console.log("Error: " + error);
+              });
+    }
 
   </script>
 
