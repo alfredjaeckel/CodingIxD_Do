@@ -182,6 +182,7 @@ GPIO.setmode(GPIO.BOARD)
 achieve_btn = 40
 
 
+@app.route('/achievement', methods=["GET", "POST"])
 def achievement(ev=None):
     print("achievement")
     with app.app_context():
