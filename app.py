@@ -182,10 +182,10 @@ GPIO.setmode(GPIO.BOARD)
 achieve_btn = 40
 
 
-def achievement():
+def achievement(ev=None):
     print("achievement")
     return redirect(url_for("todo"))
 
 
 GPIO.setup(achieve_btn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement, bouncetime=20)
+GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement(), bouncetime=20)
