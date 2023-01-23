@@ -2,7 +2,7 @@
 import multiprocessing
 import sys, time
 
-
+import RPi.GPIO as GPIO
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
@@ -11,13 +11,14 @@ from forms import AddItemForm, AddStepForm, EditItemForm
 from datetime import datetime, timedelta
 
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET_PROJECT'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toDoListDB.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
 
 db = SQLAlchemy(app)
+
+
 
 
 class Item(db.Model):
@@ -175,3 +176,16 @@ def add_item_submit():
             db.session.rollback()
         return redirect(url_for("todo"))
 
+
+GPIO.setmode(GPIO.BOARD)
+
+achieve_btn = 40
+
+
+def achievement():
+    print("achievement")
+    return redirect(url_for("todo"))
+
+
+GPIO.setup(achieve_btn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement, bouncetime=20)
