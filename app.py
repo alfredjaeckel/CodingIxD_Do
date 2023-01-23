@@ -180,10 +180,13 @@ def add_item_submit():
 
 @app.route("/check_achievement", methods=["GET","POST"])
 def check_achievement():
+    '''
     if not achievement_flag:
         return 404
     else:
         return redirect(url_for("todo"))
+    '''
+    return redirect(url_for("todo"))
 
 
 
@@ -203,3 +206,11 @@ def achievement_press(ev=None):
 
 GPIO.setup(achieve_btn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement_press, bouncetime=20)
+
+
+if __name__ == '__main__':
+    try:
+        GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement_press, bouncetime=20)
+        app.run(host='0.0.0.0')
+    finally:
+        GPIO.cleanup()
