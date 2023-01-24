@@ -61,11 +61,13 @@ def cat_move(up, motor):
 def achievement_press(button, ev=None):
     global achievement_flag
     achievement_flag[button] = True
+    print("press")
 
 
 def fail_press(button, ev=None):
     global fail_flag
     fail_flag[button] = True
+    print("press")
 
 
 def init_GPIO():
