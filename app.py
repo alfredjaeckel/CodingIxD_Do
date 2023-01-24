@@ -216,6 +216,7 @@ def achievement(committed_id):
 def check_fail(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
+    print(item_id)
     if not contr.fail_flag[committed_id] or item_id is None:
         abort(404)
     else:
