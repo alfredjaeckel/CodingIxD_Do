@@ -1,26 +1,21 @@
 # Installed
-import multiprocessing
-import sys, time
-
-import RPi.GPIO as GPIO
-import flask
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-
 import contr
+from contr import cat_move, init_GPIO, achievement_flag
+from RPi import GPIO
+
 from forms import AddItemForm, AddStepForm, EditItemForm
 from datetime import datetime, timedelta
+from flask import Flask, render_template, request, redirect, url_for, abort
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET_PROJECT'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toDoListDB.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
-app.config['SERVER_NAME'] = '192.168.178.78:5000'
 
 db = SQLAlchemy(app)
 
-achievement_flag = False
 
 
 class Item(db.Model):
@@ -28,12 +23,13 @@ class Item(db.Model):
     name = db.Column(db.String(50), index=True, unique=False)
     complete = db.Column(db.Boolean, default=False, nullable=False)
     committed = db.Column(db.Boolean, default=False, nullable=False)
+    committed_id = db.Column(db.Integer)
     steps = db.relationship('Step', backref='item', lazy='dynamic', cascade="all, delete, delete-orphan")
     due_time = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
-        return "Item ID: {}, Name: {}, Committed: {}, Complete: {}" \
-            .format(self.id, self.name, self.committed, self.complete)
+        return "Item ID: {}, Name: {}, Committed: {}, Complete: {}, Commit_id: {}" \
+            .format(self.id, self.name, self.committed, self.complete, self.committed_id)
 
 
 class Step(db.Model):
@@ -52,15 +48,9 @@ with app.app_context():
     db.create_all()
 
 
-def phys():
-    contr.move()
-
-
 @app.route('/', methods=["GET", "POST"])
 def todo():
-    process = multiprocessing.Process(target=phys)
-    if not process.is_alive():
-        process.start()
+    # cat_move(True, 0)
 
     committed_items = Item.query.filter(Item.committed == True)
     todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
@@ -72,22 +62,40 @@ def todo():
 
         # Item table actions
         if action == "Commit":
-            item = Item.query.get(name)
-            item.complete = False
-            item.committed = True
-            item.due_time = datetime.now() + timedelta(seconds=2)
-            #todo do date
-            db.session.commit()
+            if committed_items.count() < 3:
+                item = Item.query.get(name)
+                committed_id = db.session.query(Item.committed_id).filter(Item.committed == True)
+                committed_id = [n[0] for n in committed_id]
+                print(committed_id)
+                if 0 not in committed_id:
+                    item.committed_id = 0
+                elif 1 not in committed_id:
+                    item.committed_id = 1
+                elif 2 not in committed_id:
+                    item.committed_id = 2
+                else:
+                    print("committed_id failure")
+                item.complete = False
+                item.committed = True
+                item.due_time = datetime.now() + timedelta(hours=2)
+                db.session.commit()
+                print(item.__repr__())
+            else:
+                print("To Many commitments")
+
         if action == "Complete":
             item = Item.query.get(name)
+            item.committed_id = None
             item.complete = True
             item.committed = False
             db.session.commit()
+
         elif action == "Uncomplete":
             item = Item.query.get(name)
             item.complete = False
             item.committed = False
             db.session.commit()
+
         elif action == "Edit":
             return redirect(url_for("item", item_id=name))
 
@@ -165,6 +173,7 @@ def add_step_submit(item_id):
             db.session.rollback()
     return redirect(url_for("item", item_id=item_id))
 
+
 @app.route("/add_item_submit", methods=["POST"])
 def add_item_submit():
     add_item_form = AddItemForm()
@@ -178,38 +187,52 @@ def add_item_submit():
         return redirect(url_for("todo"))
 
 
-@app.route("/check_achievement", methods=["GET","POST"])
-def check_achievement():
-    global achievement_flag
-    if not achievement_flag:
-        flask.abort(404)
+@app.route("/<committed_id>/check_achievement", methods=["GET","POST"])
+def check_achievement(committed_id):
+    committed_id = int(committed_id)
+    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
+    if not contr.achievement_flag[committed_id] and item_id is not None:
+        abort(404)
     else:
-        achievement_flag = False
+        contr.achievement_flag[committed_id] = False
         return redirect(url_for("todo"))
 
 
-@app.route("/achievement", methods=["GET","POST"])
-def achievement():
-    return redirect(url_for("todo"))
+@app.route("/<committed_id>/achievement", methods=["GET","POST"])
+def achievement(committed_id):
+    committed_id = int(committed_id)
+    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
+
+    item = Item.query.get(item_id)
+    item.committed_id = None
+    item.complete = True
+    item.committed = False
+    db.session.commit()
+
+    return redirect(url_for("item", item_id=item_id))
 
 
+@app.route("/<committed_id>/check_fail", methods=["GET","POST"])
+def check_fail(committed_id):
+    committed_id = int(committed_id)
+    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
+    if not contr.fail_flag[committed_id] and item_id is not None:
+        abort(404)
+    else:
+        contr.fail_flag[committed_id] = False
+        return redirect(url_for("todo"))
 
-GPIO.setmode(GPIO.BOARD)
 
-achieve_btn = 40
-
-
-def achievement_press(ev=None):
-    global achievement_flag
-    achievement_flag = True
-
-
-GPIO.setup(achieve_btn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.add_event_detect(achieve_btn, GPIO.FALLING, callback=achievement_press, bouncetime=20)
+@app.route("/<committed_id>/fail", methods=["GET","POST"])
+def fail(committed_id):
+    committed_id = int(committed_id)
+    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
+    return redirect(url_for("item", item_id=item_id))
 
 
 if __name__ == '__main__':
     try:
+        init_GPIO()
         app.run(host='0.0.0.0')
     finally:
         GPIO.cleanup()
