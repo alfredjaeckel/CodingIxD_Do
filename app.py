@@ -191,7 +191,7 @@ def add_item_submit():
 def check_achievement(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.achievement_flag[committed_id] or item_id is not None:
+    if not contr.achievement_flag[committed_id] or item_id is None:
         abort(404)
     else:
         contr.achievement_flag[committed_id] = False
@@ -216,7 +216,7 @@ def achievement(committed_id):
 def check_fail(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.fail_flag[committed_id] or item_id is not None:
+    if not contr.fail_flag[committed_id] or item_id is None:
         abort(404)
     else:
         contr.fail_flag[committed_id] = False
