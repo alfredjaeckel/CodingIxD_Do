@@ -1,0 +1,6 @@
+add step completion on button action
+
+add step prompt on fail
+
+add new step or complete task if step exists
+

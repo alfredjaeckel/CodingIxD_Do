@@ -1,13 +1,11 @@
 # Installed
 import contr
-from contr import cat_move, init_GPIO, achievement_flag
-from RPi import GPIO
+from contr import cat_move, butterfly_move, init_GPIO
 
 from forms import AddItemForm, AddStepForm, EditItemForm
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET_PROJECT'
@@ -15,7 +13,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toDoListDB.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
 
 db = SQLAlchemy(app)
-
 
 
 class Item(db.Model):
@@ -151,12 +148,12 @@ def item(item_id):
 @app.route("/<item_id>/edit_item_submit", methods=["POST"])
 def edit_item_submit(item_id):
     edit_item_form = EditItemForm()
-    #Fix
+    # Fix
     if edit_item_form.validate_on_submit():
         item = Item.query.get(item_id)
         item.name = edit_item_form.name.data
         db.session.commit()
-    return redirect(url_for("item", item_id = item_id))
+    return redirect(url_for("item", item_id=item_id))
 
 
 @app.route("/<item_id>/add_step_submit", methods=["POST"])
@@ -165,7 +162,7 @@ def add_step_submit(item_id):
     if add_step_form.validate_on_submit():
         item = Item.query.get(item_id)
         steps_count = len(item.steps.all()) + 1
-        step = Step(name = add_step_form.name.data, number = steps_count, item_id = item_id)
+        step = Step(name=add_step_form.name.data, number=steps_count, item_id=item_id)
         db.session.add(step)
         try:
             db.session.commit()
@@ -187,7 +184,7 @@ def add_item_submit():
         return redirect(url_for("todo"))
 
 
-@app.route("/<committed_id>/check_achievement", methods=["GET","POST"])
+@app.route("/<committed_id>/check_achievement", methods=["GET", "POST"])
 def check_achievement(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
@@ -198,7 +195,7 @@ def check_achievement(committed_id):
         return redirect(url_for("todo"))
 
 
-@app.route("/<committed_id>/achievement", methods=["GET","POST"])
+@app.route("/<committed_id>/achievement", methods=["GET", "POST"])
 def achievement(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
@@ -212,7 +209,7 @@ def achievement(committed_id):
     return redirect(url_for("item", item_id=item_id))
 
 
-@app.route("/<committed_id>/check_fail", methods=["GET","POST"])
+@app.route("/<committed_id>/check_fail", methods=["GET", "POST"])
 def check_fail(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
@@ -223,7 +220,7 @@ def check_fail(committed_id):
         return redirect(url_for("todo"))
 
 
-@app.route("/<committed_id>/fail", methods=["GET","POST"])
+@app.route("/<committed_id>/fail", methods=["GET", "POST"])
 def fail(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
@@ -235,4 +232,5 @@ if __name__ == '__main__':
         init_GPIO()
         app.run(host='0.0.0.0')
     finally:
-        GPIO.cleanup()
+        # GPIO.cleanup()
+        print("clean")

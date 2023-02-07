@@ -58,6 +58,10 @@ def cat_move(up, motor):
     process.start()
 
 
+def butterfly_move():
+    print('moved butterfly')
+
+
 def achievement_press(button, ev=None):
     global achievement_flag
     achievement_flag[button] = True
