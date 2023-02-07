@@ -47,7 +47,7 @@ with app.app_context():
 
 @app.route('/', methods=["GET", "POST"])
 def todo():
-    # cat_move(True, 0)
+
 
     committed_items = Item.query.filter(Item.committed == True)
     todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
@@ -66,6 +66,7 @@ def todo():
                 print(committed_id)
                 if 0 not in committed_id:
                     item.committed_id = 0
+                    cat_move(True, 0)
                 elif 1 not in committed_id:
                     item.committed_id = 1
                 elif 2 not in committed_id:
@@ -74,7 +75,7 @@ def todo():
                     print("committed_id failure")
                 item.complete = False
                 item.committed = True
-                item.due_time = datetime.now() + timedelta(hours=2)
+                item.due_time = datetime.now() + timedelta(hours=1, minutes=1)
                 db.session.commit()
                 print(item.__repr__())
             else:
@@ -103,6 +104,146 @@ def todo():
                            add_item=AddItemForm(),
                            )
 
+
+@app.route('/prompt/<item_id>', methods=["GET", "POST"])
+def prompt(item_id):
+
+
+    prompt_item = Item.query.get(item_id)
+
+    committed_items = Item.query.filter(Item.committed == True)
+    todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
+    completed_items = Item.query.filter(Item.complete == True)
+
+    if request.method == "POST":
+
+        [(name, action)] = request.form.items()
+
+        # Item table actions
+        if action == "Commit":
+            if committed_items.count() < 3:
+                item = Item.query.get(name)
+                committed_id = db.session.query(Item.committed_id).filter(Item.committed == True)
+                committed_id = [n[0] for n in committed_id]
+                print(committed_id)
+                if 0 not in committed_id:
+                    item.committed_id = 0
+                    cat_move(True, 0)
+                elif 1 not in committed_id:
+                    item.committed_id = 1
+                elif 2 not in committed_id:
+                    item.committed_id = 2
+                else:
+                    print("committed_id failure")
+                item.complete = False
+                item.committed = True
+                item.due_time = datetime.now() + timedelta(minutes=5)
+                db.session.commit()
+                print(item.__repr__())
+            else:
+                print("To Many commitments")
+
+        if action == "Complete":
+            item = Item.query.get(name)
+            item.committed_id = None
+            item.complete = True
+            item.committed = False
+            db.session.commit()
+
+        elif action == "Uncomplete":
+            item = Item.query.get(name)
+            item.complete = False
+            item.committed = False
+            db.session.commit()
+
+        elif action == "Edit":
+            return redirect(url_for("item", item_id=name))
+
+        elif action == "Finish":
+            item = Item.query.get(name)
+            item.committed_id = None
+            item.complete = True
+            item.committed = False
+            db.session.commit()
+            cat_move(False, 0)
+            butterfly_move()
+            return redirect(url_for("todo"))
+
+        elif action == "Extend":
+            cat_move(False, 0)
+            return redirect(url_for("prompt_fail", item_id=name))
+
+
+    return render_template("prompt.html",
+                           item=prompt_item,
+                           committed_items=committed_items,
+                           todo_items=todo_items,
+                           completed_items=completed_items,
+                           add_item=AddItemForm(),
+                           )
+
+@app.route('/prompt_fail/<item_id>', methods=["GET", "POST"])
+def prompt_fail(item_id):
+
+
+    prompt_item = Item.query.get(item_id)
+
+    committed_items = Item.query.filter(Item.committed == True)
+    todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
+    completed_items = Item.query.filter(Item.complete == True)
+
+    if request.method == "POST":
+
+        [(name, action)] = request.form.items()
+
+        # Item table actions
+        if action == "Commit":
+            if committed_items.count() < 3:
+                item = Item.query.get(name)
+                committed_id = db.session.query(Item.committed_id).filter(Item.committed == True)
+                committed_id = [n[0] for n in committed_id]
+                print(committed_id)
+                if 0 not in committed_id:
+                    item.committed_id = 0
+                    cat_move(True, 0)
+                elif 1 not in committed_id:
+                    item.committed_id = 1
+                elif 2 not in committed_id:
+                    item.committed_id = 2
+                else:
+                    print("committed_id failure")
+                item.complete = False
+                item.committed = True
+                item.due_time = datetime.now() + timedelta(minutes=5)
+                db.session.commit()
+                print(item.__repr__())
+            else:
+                print("To Many commitments")
+
+        if action == "Complete":
+            item = Item.query.get(name)
+            item.committed_id = None
+            item.complete = True
+            item.committed = False
+            db.session.commit()
+
+        elif action == "Uncomplete":
+            item = Item.query.get(name)
+            item.complete = False
+            item.committed = False
+            db.session.commit()
+
+        elif action == "Edit":
+            return redirect(url_for("item", item_id=name))
+
+    return render_template("prompt_fail.html",
+                           item=prompt_item,
+                           add_step=AddStepForm(),
+                           committed_items=committed_items,
+                           todo_items=todo_items,
+                           completed_items=completed_items,
+                           add_item=AddItemForm(),
+                           )
 
 @app.route("/item/<item_id>", methods=["GET", "POST"])
 def item(item_id):
@@ -169,6 +310,22 @@ def add_step_submit(item_id):
         except Exception:
             db.session.rollback()
     return redirect(url_for("item", item_id=item_id))
+
+@app.route("/<item_id>/add_step_submit_prompt", methods=["POST"])
+def add_step_submit_prompt(item_id):
+    add_step_form = AddStepForm()
+    if add_step_form.validate_on_submit():
+        item = Item.query.get(item_id)
+        steps_count = len(item.steps.all()) + 1
+        step = Step(name=add_step_form.name.data, number=steps_count, item_id=item_id)
+        item.due_time = datetime.now() + timedelta(minutes=2)
+        db.session.add(step)
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+    cat_move(True, 0)
+    return redirect(url_for("todo"))
 
 
 @app.route("/add_item_submit", methods=["POST"])

@@ -1,4 +1,4 @@
-import multiprocessing
+import threading
 
 import RPi.GPIO as GPIO
 import time
@@ -30,9 +30,12 @@ achieve_button = [40]
 
 fail_button = [36]
 
+servo_pwm = 12
+
 achievement_flag = [False, False, False]
 
 fail_flag = [False, False, False]
+
 
 
 def cat_move_runner(up, motor):
@@ -45,21 +48,38 @@ def cat_move_runner(up, motor):
     else:
         steps = step_down
 
-    for i in range(100):
+    for i in range(1500):
         for step in steps:
             GPIO.output(stepper[motor], step)
-            time.sleep(0.001)
+            time.sleep(0.002)
 
     GPIO.output(stepper[motor], [0, 0, 0, 0])
 
 
 def cat_move(up, motor):
-    process = multiprocessing.Process(target=cat_move_runner, args=(up, motor,))
+    process = threading.Thread(target=cat_move_runner, args=(up, motor,))
     process.start()
+    print("cat is moving")
+
+
+def butterfly_move_runner():
+    GPIO.setup(servo_pwm, GPIO.OUT)
+    pwm = GPIO.PWM(servo_pwm, 50)
+    pwm.start(12)
+    time.sleep(20)
+    pwm.ChangeDutyCycle(2)
+    time.sleep(1)
+    pwm.stop()
+
 
 
 def butterfly_move():
-    print('moved butterfly')
+    process_butterfly = threading.Thread(target=butterfly_move_runner)
+    print("butterfly will be moving")
+    process_butterfly.start()
+    print("butterfly is moving")
+
+
 
 
 def achievement_press(button, ev=None):

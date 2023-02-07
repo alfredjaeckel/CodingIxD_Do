@@ -20,6 +20,31 @@
     </table>
   </form>
 
+    <h4> Prompt </h4>
+        <tr class = "item-container">
+          <td class="item">
+              <p style = "float:left;">
+                {{item['name']}}
+              </p>
+          </td>
+            <form action = "{{url_for('add_step_submit_prompt', item_id = item.id)}}" class="addform"  method="POST" >
+          <h4> Add Steps </h4>
+          {{ add_step.hidden_tag() }}
+          <table>
+            <tbody>
+              <tr>
+                <td>{{add_step.name.label}}</td>
+                <td>{{add_step.name()}}</td>
+
+              </tr>
+              <tr>
+                <td>{{add_step.submit()}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+        </tr>
+
     <h4> Committed Tasks </h4>
 
   <table id= commit_table>
@@ -61,7 +86,6 @@
 
                         // If the count down is finished, write some text
                         if (distance{{item.id}} < 0) {
-                            window.location.href = '/prompt/{{item.id}}'
                             clearInterval(x{{item.id}});
                             document.getElementById("countdown{{item.id}}").innerHTML = "OVERDUE";
                         }
