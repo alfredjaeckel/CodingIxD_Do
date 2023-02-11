@@ -13,8 +13,8 @@ class FieldsRequiredForm(FlaskForm):
 
 
 class AddItemForm(FieldsRequiredForm):
-    name = StringField("Item Name", validators=[DataRequired()])
-    submit = SubmitField("Add Item")
+    name = StringField("Item Name", render_kw={"placeholder": "Add Item"}, validators=[DataRequired()])
+    submit = SubmitField("")
 
 
 class AddStepForm(FieldsRequiredForm):

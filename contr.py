@@ -45,13 +45,15 @@ def cat_move_runner(up, motor):
         GPIO.output(pin, 0)
     if up:
         steps = step_up
+        delay = 0.001
     else:
         steps = step_down
+        delay = 0.0006
 
-    for i in range(1500):
+    for i in range(2000):
         for step in steps:
             GPIO.output(stepper[motor], step)
-            time.sleep(0.002)
+            time.sleep(delay)
 
     GPIO.output(stepper[motor], [0, 0, 0, 0])
 

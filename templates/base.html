@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!--<link rel="stylesheet" href="../static/styles.css">-->
+    <link rel="stylesheet" href="../static/css/main.css">
+    <meta name=”apple-mobile-web-app-capable” content=”yes “>
     <title>To Do List</title>
   </head>
   <body>
@@ -9,88 +10,6 @@
     {% endblock %}
   </body>
 
-  <script>
-    var url0 = "{{url_for('check_achievement', committed_id=0)}}";
-    var url1 = "{{url_for('check_achievement', committed_id=1)}}";
-    var url2 = "{{url_for('check_achievement', committed_id=2)}}";
-    var go0 = "{{url_for('achievement', committed_id=0)}}";
-    var go1 = "{{url_for('achievement', committed_id=1)}}";
-    var go2 = "{{url_for('achievement', committed_id=2)}}";
 
-    var url0_fail = "{{url_for('check_fail', committed_id=0)}}";
-    var url1_fail = "{{url_for('check_fail', committed_id=1)}}";
-    var url2_fail = "{{url_for('check_fail', committed_id=2)}}";
-    var go0_fail = "{{url_for('fail', committed_id=0)}}";
-    var go1_fail = "{{url_for('fail', committed_id=1)}}";
-    var go2_fail = "{{url_for('fail', committed_id=2)}}";
-    setInterval(() => {
-      fetch(url0)
-              .then(response => {
-                if (response.ok) {
-                  location.href = go0;
-                } else {
-                  //nothing
-                }
-              })
-              .catch(error => {
-                console.log("Error: " + error);
-              });
-      fetch(url1)
-              .then(response => {
-                if (response.ok) {
-                  location.href = go1;
-                } else {
-                  //nothing
-                }
-              })
-              .catch(error => {
-                console.log("Error: " + error);
-              });
-      fetch(url2)
-              .then(response => {
-                if (response.ok) {
-                  location.href = go2;
-                } else {
-                  //nothing
-                }
-              })
-              .catch(error => {
-                console.log("Error: " + error);
-              });
-      fetch(url0_fail)
-              .then(response => {
-                if (response.ok) {
-                  location.href = go0_fail;
-                } else {
-                  //nothing
-                }
-              })
-              .catch(error => {
-                console.log("Error: " + error);
-              });
-      fetch(url1_fail)
-              .then(response => {
-                if (response.ok) {
-                  location.href = go1_fail;
-                } else {
-                  //nothing
-                }
-              })
-              .catch(error => {
-                console.log("Error: " + error);
-              });
-      fetch(url2_fail)
-              .then(response => {
-                if (response.ok) {
-                  location.href = go2_fail;
-                } else {
-                  //nothing
-                }
-              })
-              .catch(error => {
-                console.log("Error: " + error);
-              });
-    }, 1000);
-  </script>
 
 </html>

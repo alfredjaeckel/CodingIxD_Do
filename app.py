@@ -1,6 +1,6 @@
 # Installed
-import contr
-from contr import cat_move, butterfly_move, init_GPIO
+import mock_contr
+from mock_contr import cat_move, butterfly_move, init_GPIO
 
 from forms import AddItemForm, AddStepForm, EditItemForm
 from datetime import datetime, timedelta
@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
 
 db = SQLAlchemy(app)
 
-
+TIMESPAN = timedelta(hours=0, seconds=30)
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), index=True, unique=False)
@@ -47,8 +47,6 @@ with app.app_context():
 
 @app.route('/', methods=["GET", "POST"])
 def todo():
-
-
     committed_items = Item.query.filter(Item.committed == True)
     todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
     completed_items = Item.query.filter(Item.complete == True)
@@ -75,7 +73,7 @@ def todo():
                     print("committed_id failure")
                 item.complete = False
                 item.committed = True
-                item.due_time = datetime.now() + timedelta(hours=1, minutes=1)
+                item.due_time = datetime.now() + TIMESPAN
                 db.session.commit()
                 print(item.__repr__())
             else:
@@ -107,8 +105,6 @@ def todo():
 
 @app.route('/prompt/<item_id>', methods=["GET", "POST"])
 def prompt(item_id):
-
-
     prompt_item = Item.query.get(item_id)
 
     committed_items = Item.query.filter(Item.committed == True)
@@ -137,7 +133,7 @@ def prompt(item_id):
                     print("committed_id failure")
                 item.complete = False
                 item.committed = True
-                item.due_time = datetime.now() + timedelta(minutes=5)
+                item.due_time = datetime.now() + TIMESPAN
                 db.session.commit()
                 print(item.__repr__())
             else:
@@ -161,18 +157,29 @@ def prompt(item_id):
 
         elif action == "Finish":
             item = Item.query.get(name)
-            item.committed_id = None
-            item.complete = True
-            item.committed = False
-            db.session.commit()
-            cat_move(False, 0)
             butterfly_move()
-            return redirect(url_for("todo"))
+            if(db.session.query(Step.item_id).filter(Step.item_id == item.id, Step.complete == False).count()) > 0:
+                step = db.session.query(Step).filter(Step.item_id == item.id, Step.complete == False)\
+                    .order_by(Step.number).first()
+                print(step)
+                step.complete = True
+                db.session.commit()
+                return redirect(url_for("prompt_finish", item_id=name))
+            else:
+                item.committed_id = None
+                item.complete = True
+                item.committed = False
+                db.session.commit()
+                cat_move(False, 0)
+                butterfly_move()
+                return redirect(url_for("todo"))
 
         elif action == "Extend":
             cat_move(False, 0)
+            item = Item.query.get(name)
+            item.due_time = datetime.now() + TIMESPAN
+            db.session.commit()
             return redirect(url_for("prompt_fail", item_id=name))
-
 
     return render_template("prompt.html",
                            item=prompt_item,
@@ -182,10 +189,9 @@ def prompt(item_id):
                            add_item=AddItemForm(),
                            )
 
+
 @app.route('/prompt_fail/<item_id>', methods=["GET", "POST"])
 def prompt_fail(item_id):
-
-
     prompt_item = Item.query.get(item_id)
 
     committed_items = Item.query.filter(Item.committed == True)
@@ -214,7 +220,7 @@ def prompt_fail(item_id):
                     print("committed_id failure")
                 item.complete = False
                 item.committed = True
-                item.due_time = datetime.now() + timedelta(minutes=5)
+                item.due_time = datetime.now() + TIMESPAN
                 db.session.commit()
                 print(item.__repr__())
             else:
@@ -244,6 +250,83 @@ def prompt_fail(item_id):
                            completed_items=completed_items,
                            add_item=AddItemForm(),
                            )
+
+@app.route('/prompt_finish/<item_id>', methods=["GET", "POST"])
+def prompt_finish(item_id):
+    prompt_item = Item.query.get(item_id)
+
+    committed_items = Item.query.filter(Item.committed == True)
+    todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
+    completed_items = Item.query.filter(Item.complete == True)
+
+    if request.method == "POST":
+
+        [(name, action)] = request.form.items()
+
+        # Item table actions
+        if action == "Commit":
+            if committed_items.count() < 3:
+                item = Item.query.get(name)
+                committed_id = db.session.query(Item.committed_id).filter(Item.committed == True)
+                committed_id = [n[0] for n in committed_id]
+                print(committed_id)
+                if 0 not in committed_id:
+                    item.committed_id = 0
+                    cat_move(True, 0)
+                elif 1 not in committed_id:
+                    item.committed_id = 1
+                elif 2 not in committed_id:
+                    item.committed_id = 2
+                else:
+                    print("committed_id failure")
+                item.complete = False
+                item.committed = True
+                item.due_time = datetime.now() + TIMESPAN
+                db.session.commit()
+                print(item.__repr__())
+            else:
+                print("To Many commitments")
+
+        if action == "Complete":
+            item = Item.query.get(name)
+            item.committed_id = None
+            item.complete = True
+            item.committed = False
+            db.session.commit()
+
+        elif action == "Uncomplete":
+            item = Item.query.get(name)
+            item.complete = False
+            item.committed = False
+            db.session.commit()
+
+        elif action == "Edit":
+            return redirect(url_for("item", item_id=name))
+
+        elif action == "Finish":
+            cat_move(False, 0)
+            butterfly_move()
+            item = Item.query.get(name)
+            item.due_time = datetime.now() + TIMESPAN
+            db.session.commit()
+
+            return redirect(url_for("todo"))
+
+        elif action == "Extend":
+            cat_move(False, 0)
+            item = Item.query.get(name)
+            item.due_time = datetime.now() + TIMESPAN
+            db.session.commit()
+            return redirect(url_for("prompt_fail", item_id=name))
+
+    return render_template("prompt_finish.html",
+                           item=prompt_item,
+                           committed_items=committed_items,
+                           todo_items=todo_items,
+                           completed_items=completed_items,
+                           add_item=AddItemForm(),
+                           )
+
 
 @app.route("/item/<item_id>", methods=["GET", "POST"])
 def item(item_id):
@@ -311,6 +394,7 @@ def add_step_submit(item_id):
             db.session.rollback()
     return redirect(url_for("item", item_id=item_id))
 
+
 @app.route("/<item_id>/add_step_submit_prompt", methods=["POST"])
 def add_step_submit_prompt(item_id):
     add_step_form = AddStepForm()
@@ -318,7 +402,6 @@ def add_step_submit_prompt(item_id):
         item = Item.query.get(item_id)
         steps_count = len(item.steps.all()) + 1
         step = Step(name=add_step_form.name.data, number=steps_count, item_id=item_id)
-        item.due_time = datetime.now() + timedelta(minutes=2)
         db.session.add(step)
         try:
             db.session.commit()
@@ -345,10 +428,10 @@ def add_item_submit():
 def check_achievement(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.achievement_flag[committed_id] or item_id is None:
+    if not mock_contr.achievement_flag[committed_id] or item_id is None:
         abort(404)
     else:
-        contr.achievement_flag[committed_id] = False
+        mock_contr.achievement_flag[committed_id] = False
         return redirect(url_for("todo"))
 
 
@@ -370,10 +453,10 @@ def achievement(committed_id):
 def check_fail(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.fail_flag[committed_id] or item_id is None:
+    if not mock_contr.fail_flag[committed_id] or item_id is None:
         abort(404)
     else:
-        contr.fail_flag[committed_id] = False
+        mock_contr.fail_flag[committed_id] = False
         return redirect(url_for("todo"))
 
 

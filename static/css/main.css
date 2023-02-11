@@ -1,0 +1,294 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #FDFCE8;
+}
+
+header {
+	position : fixed ;
+	left : 0px;
+	top : 0px;
+	width : 1536px;
+	height : 250px;
+	z-index: 1;
+	margin: 0;
+    padding: 0;
+
+    background: #97E47E;
+}
+
+header input[type=text], select {
+    background : #FFFFFF;
+    padding: 0px 50px;
+	position : absolute ;
+	left : 50px;
+	top : 74px;
+	width : 1160px;
+	height : 130px;
+	border-radius : 60px;
+    font-size: 60pt;
+	border: none;
+}
+
+header input[type=submit] {
+	background-color: rgba(0,0,0,0);
+	border: none;
+	position : absolute ;
+	left : 1356px;
+	top : 74px;
+	width : 130px;
+	height : 130px;
+    cursor: pointer;
+	background-image : url(../svg/button_add_task.svg);
+}
+
+.prompt_container{
+	position : relative;
+	top : 260px;
+	height: 300px;
+	width: 1326px;
+	margin : 50px 50px;
+	padding : 0px 35px;
+	background-color: white;
+	border-style : Solid;
+	border-color : #FDD975;
+	border-width : 20px;
+	border-radius: 60px;
+}
+
+#extend{
+	background-color: #FDD975;
+}
+
+#extend input[type=text], select {
+    background : #FFFFFF;
+    padding: 0px 50px;
+	position : absolute ;
+	left : 40px;
+	top : 140px;
+	width : 1030px;
+	height : 130px;
+	border-radius : 60px;
+    font-size: 60pt;
+	border: none;
+}
+
+#extend input[type=submit] {
+	background-color: rgba(0,0,0,0);
+	border: none;
+	position : absolute ;
+	left : 1226px;
+	top : 140px;
+	width : 130px;
+	height : 130px;
+    cursor: pointer;
+	background-image : url(../svg/button_add_task.svg);
+}
+
+#time{
+	position : absolute;
+	top : -20px;
+	left : 0px;
+	width : 1376px;
+	font-size: 65pt;
+	text-align: center;
+	background-color: #FDD975;
+	border-style : Solid;
+	border-color : #FDD975;
+	border-width : 20px;
+	border-top-left-radius: 60px;
+	border-top-right-radius: 60px;
+	color : white;
+	font-weight: bold;
+
+}
+
+#prompt_name{
+	position : absolute;
+	top : 160px;
+}
+
+.prompt_container input[class=negative]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute;
+	left : 1240px;
+	top : 160px;
+	width : 101px;
+	height : 101px;
+	background-image: url("../svg/button_extend.svg");
+	background-repeat: no-repeat;
+}
+
+.prompt_container input[class=pos]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute;
+	left : 1088px;
+	top : 160px;
+	width : 101px;
+	height : 101px;
+	background-image: url("../svg/button_complete.svg");
+	background-repeat: no-repeat;
+}
+
+
+
+#commit_table{
+	position : relative;
+	top : 280px;
+	height: 1378px;
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	font-size: 45pt;
+	text-align: center;
+}
+
+
+
+#commit_table input[class=pos]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute ;
+	left : 167px;
+	top : 1175px;
+	width : 101px;
+	height : 101px;
+	background-image: url("../svg/button_complete_cat.svg");
+}
+
+#commit_table input[class=neutral]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute;
+	left : 0px;
+	top : 0px;
+	width : 451px;
+	height : 200px;
+}
+
+.committed{
+	position : absolute ;
+	width : 451px;
+	height : 1110px;
+	padding : 20px 0px;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	background-image : url(../svg/main_rope.svg);
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+#commit0{
+	left : 81px;
+}
+
+#commit1{
+	left : 554px;
+}
+
+#commit2{
+	left : 1028px;
+}
+
+
+#todo_table{
+	position : relative ;
+	top : 250px;
+}
+
+table.list{
+	border-spacing: 40px;
+	width: 1536px;
+}
+
+.list_head{
+	background-color : #FDD975;
+	border-color : #FDD975;
+	border-style : Solid;
+	border-radius : 65px;
+	height : 65px;
+	font-size: 65pt;
+	color : white;
+	text-align: center;
+	font-weight: bold;
+}
+
+.item_element{
+	background : #FFFFFF;
+	border-style : Solid;
+	border-color : #FDD975;
+	border-width : 20px;
+	position : relative;
+	left : 0px;
+	top : 0px;
+	height : 130px;
+	padding : 0 35px;
+	border-radius : 60px;
+}
+
+.item{
+	font-size: 60pt;
+	padding : 0 0;
+	margin : 0 0;
+}
+
+.item-form input[value="Commit"]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute ;
+	left : 1320px;
+	top : 15px;
+	width : 40px;
+	height : 101px;
+	background-image: url("../svg/button_commit.svg");
+	background-repeat: no-repeat;
+}
+
+.item-form input[value="Complete"]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute ;
+	left : 1168px;
+	top : 15px;
+	width : 101px;
+	height : 101px;
+	background-image: url("../svg/button_complete.svg");
+	background-repeat: no-repeat;
+}
+
+.item-form input[value="Uncomplete"]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute ;
+	left : 1168px;
+	top : 15px;
+	width : 101px;
+	height : 101px;
+	background-image: url("../svg/button_redo.svg");
+	background-repeat: no-repeat;
+}
+
+.item-form input[value="Edit"] {
+	background-color: rgba(0, 0, 0, 0);
+	border: none;
+	color: rgba(0, 0, 0, 0);
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 1150px;
+	height: 130px;
+}
+
+#completed_table{
+	position: relative;
+	top : 350px;
+}
