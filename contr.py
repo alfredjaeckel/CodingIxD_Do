@@ -3,16 +3,17 @@ import threading
 import RPi.GPIO as GPIO
 import time
 
-step_down = [
-    [1, 0, 0, 0],
-    [1, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 1, 0],
-    [0, 0, 1, 0],
-    [0, 0, 1, 1],
-    [0, 0, 0, 1],
-    [1, 0, 0, 1]
+step_down =  [
+    [1,0,0,1],
+    [1,0,0,0],
+    [1,1,0,0],
+    [0,1,0,0],
+    [0,1,1,0],
+    [0,0,1,0],
+    [0,0,1,1],
+    [0,0,0,1]
 ]
+
 step_up = [
     [0, 0, 0, 1],
     [0, 0, 1, 1],
@@ -24,7 +25,9 @@ step_up = [
     [1, 0, 0, 1]
 ]
 
-stepper = [[7, 11, 13, 15], [], []]
+stepper_cat = [[12, 16, 18, 22], [], []]
+
+stepper_but = [7, 11, 13, 15]
 
 achieve_button = [40]
 
@@ -36,42 +39,61 @@ achievement_flag = [False, False, False]
 
 fail_flag = [False, False, False]
 
+but_flag = False
+
+cat_flag = False
 
 
-def cat_move_runner(up, motor):
+def cat_move_runner(motor):
 
-    for pin in stepper[motor]:
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, 0)
-    if up:
-        steps = step_up
-        delay = 0.001
-    else:
-        steps = step_down
-        delay = 0.0006
+    while True:
+        for pin in stepper_cat[motor]:
+            GPIO.setup(pin, GPIO.OUT)
+            GPIO.output(pin, 0)
 
-    for i in range(2000):
-        for step in steps:
-            GPIO.output(stepper[motor], step)
-            time.sleep(delay)
+        for i in range(1200):
+            for step in step_up:
+                GPIO.output(stepper_cat[motor], step)
+                time.sleep(0.001)
+            for step in step_up:
+                GPIO.output(stepper_cat[motor], step)
+                time.sleep(0.001)
+            time.sleep(0.08)
 
-    GPIO.output(stepper[motor], [0, 0, 0, 0])
+        for i in range(1450):
+            for step in step_down:
+                GPIO.output(stepper_cat[motor], step)
+                time.sleep(0.001)
+        GPIO.output(stepper_cat[motor], [0, 0, 0, 0])
 
 
-def cat_move(up, motor):
-    process = threading.Thread(target=cat_move_runner, args=(up, motor,))
+def cat_move(motor):
+    process = threading.Thread(target=cat_move_runner, args=(motor,))
     process.start()
     print("cat is moving")
 
 
 def butterfly_move_runner():
-    GPIO.setup(servo_pwm, GPIO.OUT)
-    pwm = GPIO.PWM(servo_pwm, 50)
-    pwm.start(12)
-    time.sleep(20)
-    pwm.ChangeDutyCycle(2)
-    time.sleep(1)
-    pwm.stop()
+
+    for pin in stepper_but:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, 0)
+
+    delay = 0.001
+
+    for i in range(280):
+        for step in step_down:
+            GPIO.output(stepper_but, step)
+            time.sleep(delay)
+
+    time.sleep(10)
+
+    for i in range(280):
+        for step in step_up:
+            GPIO.output(stepper_but, step)
+            time.sleep(delay)
+
+    GPIO.output(stepper_but, [0, 0, 0, 0])
 
 
 
@@ -106,4 +128,6 @@ def init_GPIO():
                               bouncetime=50)
         GPIO.add_event_detect(fail_button[button], GPIO.RISING, callback=lambda y: fail_press(button),
                               bouncetime=50)
+
+        cat_move(0)
 

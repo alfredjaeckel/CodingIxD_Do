@@ -1,8 +1,17 @@
+:root{
+	--cat_height0 : 0px;
+	--cat_height1 : 0px;
+	--cat_height2 : 0px;
+}
+
+
 body{
-    margin: 0;
-    padding: 0;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
     font-family: Arial, sans-serif;
     background-color: #FDFCE8;
+	width: 1536px;
+	height: 2048px;
 }
 
 header {
@@ -11,12 +20,13 @@ header {
 	top : 0px;
 	width : 1536px;
 	height : 250px;
-	z-index: 1;
+	z-index: 2;
 	margin: 0;
     padding: 0;
 
     background: #97E47E;
 }
+
 
 header input[type=text], select {
     background : #FFFFFF;
@@ -55,6 +65,7 @@ header input[type=submit] {
 	border-color : #FDD975;
 	border-width : 20px;
 	border-radius: 60px;
+	overflow: clip;
 }
 
 #extend{
@@ -176,13 +187,20 @@ header input[type=submit] {
 	position : absolute ;
 	width : 451px;
 	height : 1110px;
-	padding : 20px 0px;
+	padding : 20px 0 0 0;
 	background-color: rgba(0,0,0,0);
 	border: none;
 	background-image : url(../svg/main_rope.svg);
 	background-repeat: no-repeat;
 	text-align: center;
 }
+
+#comm_name{
+	width : 345px;
+	overflow: clip;
+	padding : 0 20px;
+}
+
 
 #commit0{
 	left : 81px;
@@ -196,6 +214,29 @@ header input[type=submit] {
 	left : 1028px;
 }
 
+.cat{
+	position : absolute;
+	width : 84px;
+	height : 210px;
+	left : 140px;
+	z-index: 1;
+	background-color: rgba(0,0,0,0);
+	border: none;
+	background-image : url(../svg/cat.svg);
+	background-repeat: no-repeat;
+}
+
+#cat0{
+	top : calc(920px - var(--cat_height0));
+}
+
+#cat1{
+	top : calc(920px - var(--cat_height1));
+}
+
+#cat2{
+	top : calc(920px - var(--cat_height2));
+}
 
 #todo_table{
 	position : relative ;
@@ -236,6 +277,8 @@ table.list{
 	font-size: 60pt;
 	padding : 0 0;
 	margin : 0 0;
+	width: 1086px;
+	overflow: clip;
 }
 
 .item-form input[value="Commit"]{
@@ -291,4 +334,200 @@ table.list{
 #completed_table{
 	position: relative;
 	top : 350px;
+}
+
+
+
+
+#block{
+	position : fixed;
+	top : 0px;
+	left : 0px;
+	width : 1536px;
+	height : 300px;
+	z-index: 1;
+	background-color: #FDFCE8;
+
+}
+
+#delete{
+	position : fixed;
+	top : 50px;
+	left : 1386px;
+	width : 101px;
+	height : 101px;
+	z-index: 2;
+	background-image: url("../svg/button_delete_red.svg");
+	background-color: rgba(0,0,0,0);
+	border : none;
+	color: rgba(0,0,0,0);
+}
+
+#home{
+	position : fixed;
+	top : 50px;
+	left : 50px;
+	width : 101px;
+	height : 101px;
+	z-index: 2;
+	background-image: url("../svg/button_home.svg");
+	background-color: rgba(0,0,0,0);
+	border : none;
+	color: rgba(0,0,0,0);
+}
+
+
+
+#item-info{
+	position : fixed;
+	top : 200px;
+	left : 100px;
+	width : 1386px;
+	height : 1450px;
+	padding : 25px;
+	margin : 0;
+	z-index: 2;
+	background-image: url(../svg/edit_rope.svg);
+	background-repeat: no-repeat;
+}
+
+#item-info input[type=text]{
+    background : rgba(0, 0, 0, 0);
+    padding: 0px 50px;
+	position : fixed ;
+	width: 1186px;
+    font-size: 90pt;
+	font-weight: bold;
+	border: none;
+	text-align: center;
+	overflow: clip;
+}
+
+
+
+footer{
+position : fixed;
+	left : 0;
+	bottom : 0;
+	width : 1536px;
+	height : 250px;
+	z-index: 2;
+	margin: 0 0 0 0;
+    padding: 0;
+    background: #FDD975;
+}
+
+
+footer input[type=text], select {
+    background : #FFFFFF;
+    padding: 0px 50px;
+	position : absolute ;
+	left : 50px;
+	top : 74px;
+	width : 1160px;
+	height : 130px;
+	border-radius : 60px;
+    font-size: 60pt;
+	border: none;
+}
+
+footer input[type=submit] {
+	background-color: rgba(0,0,0,0);
+	border: none;
+	position : absolute ;
+	left : 1356px;
+	top : 74px;
+	width : 130px;
+	height : 130px;
+    cursor: pointer;
+	color : rgba(0,0,0,0);
+	background-image : url(../svg/button_add_task.svg);
+}
+
+
+
+#steptable{
+	position: relative;
+	top : 500px;
+	left : 400px;
+	border-spacing: 40px;
+	padding : 0 0 230px;
+	width: 1050px;
+	height : 800px;
+}
+
+.step-title{
+	background-color : #FDD975;
+	border-color : #FDD975;
+	border-style : Solid;
+	border-radius : 65px;
+	height : 65px;
+	font-size: 65pt;
+	color : white;
+	text-align: center;
+	font-weight: bold;
+	padding: 0 0 0 0;
+}
+
+.step-container{
+	background : #FFFFFF;
+	border-style : Solid;
+	border-color : #FDD975;
+	border-width : 20px;
+	position : relative;
+	left : 0px;
+	top : 0px;
+	height : 130px;
+	padding : 0 35px;
+	border-radius : 60px;
+}
+
+
+.step-name{
+	position : absolute;
+	top : 20px;
+	width : 600px;
+	font-size: 60pt;
+	padding : 0 0 0 20px;
+	margin : 0 0;
+	overflow: clip;
+}
+
+.step-form input[value="Done"]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute ;
+	left : 710px;
+	top : 25px;
+	width : 80px;
+	height : 80px;
+	background-image: url("../svg/button_complete.svg");
+	background-repeat: no-repeat;
+}
+
+.step-form input[value="Undo"]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute ;
+	left : 710px;
+	top : 25px;
+	width : 80px;
+	height : 80px;
+	background-image: url("../svg/button_redo.svg");
+	background-repeat: no-repeat;
+}
+
+.step-form input[value="Remove"]{
+	background-color: rgba(0,0,0,0);
+	border: none;
+	color: rgba(0,0,0,0);
+	position : absolute ;
+	left : 810px;
+	top : 15px;
+	width : 101px;
+	height : 101px;
+	background-image: url("../svg/button_delete.svg");
+	background-repeat: no-repeat;
 }

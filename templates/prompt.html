@@ -10,7 +10,11 @@
             </div>
           <div id=prompt_name class="item">
               <div>
-                {{item['name']}}
+                  {% if step_list[item['committed_id']] == None %}
+                    {{item['name']}}
+                  {% else %}
+                    {{step_list[item['committed_id']]['name']}}
+                  {% endif %}
               </div>
           </div>
 

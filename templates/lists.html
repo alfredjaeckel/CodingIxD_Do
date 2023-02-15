@@ -15,13 +15,20 @@
 
     {% block prompt %}
     {% endblock %}
-
+    {% if committed_items[0]%}
   <div id= commit_table>
         {% for item in committed_items %}
-        <div id="commit{{item['committed_id']}}", class="committed">
 
-              <div>
-                {{item['name']}}
+        <div id="commit{{item['committed_id']}}" class="committed">
+            <div id="cat{{item['committed_id']}}" class="cat">
+
+            </div>
+              <div id = comm_name>
+                  {% if step_list[item['committed_id']] == None %}
+                    {{item['name']}}
+                  {% else %}
+                    {{step_list[item['committed_id']]['name']}}
+                  {% endif %}
               </div>
 
 
@@ -29,7 +36,7 @@
                     <!-- insert countdown widget here for testing -->
                     <p id="countdown{{item.id}}"></p>
 
-                      <script>
+                        <script>
                           // Set the date we're counting down to
                           var countDownDate{{item.id}} = new Date("{{item.due_time}}").getTime();
 
@@ -42,25 +49,38 @@
                             // Find the distance between now and the count down date
                             var distance{{item.id}} = countDownDate{{item.id}} - now{{item.id}};
 
+                            //console.log(distance{{item.id}});
+
+                            var remove = distance{{item.id}};
+
+                            var delta = 360000;
+
+                            var result = 0;
+
                             // Time calculations for days, hours, minutes and seconds
                             var days{{item.id}} = Math.floor(distance{{item.id}} / (1000 * 60 * 60 * 24));
                             var hours{{item.id}} = Math.floor((distance{{item.id}} % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                             var minutes{{item.id}} = Math.floor((distance{{item.id}} % (1000 * 60 * 60)) / (1000 * 60));
 
                             // Display the result in the element with id="demo"
-                            document.getElementById("countdown{{item.id}}").innerHTML = days{{item.id}} + "d " +
+                            //document.getElementById("countdown{{item.id}}").innerHTML = days{{item.id}} + "d " +
                                                                                         hours{{item.id}} + "h " +
                                                                                         minutes{{item.id}} + "m ";
 
                             // If the count down is finished, write some text
                             if (distance{{item.id}} < 0) {
                                 if (window.location.href.indexOf("prompt") <= -1){
-                                    window.location.href = '/prompt/{{item.id}}'
+                                    window.location.href = '/prompt/{{item.id}}';
                                 }
 
                                 clearInterval(x{{item.id}});
                                 //document.getElementById("countdown{{item.id}}").innerHTML = "OVERDUE";
                             }
+                            if(distance{{item.id}} > 0){
+                                result = parseInt((720 - (remove / delta) * 720));
+                            }
+                            
+                            document.documentElement.style.setProperty(('--cat_height{{item['committed_id']}}'), (String(result) + 'px'));
                           }, 1000);
                       </script>
                 </div>
@@ -77,7 +97,7 @@
         </div>
         {% endfor %}
   </div>
-
+    {%endif%}
 
 
   <table class="list" id= todo_table>
