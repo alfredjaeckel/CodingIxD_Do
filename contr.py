@@ -60,7 +60,7 @@ def cat_move_runner(motor):
                 time.sleep(0.001)
             time.sleep(0.08)
 
-        for i in range(1450):
+        for i in range(1100):
             for step in step_down:
                 GPIO.output(stepper_cat[motor], step)
                 time.sleep(0.001)
