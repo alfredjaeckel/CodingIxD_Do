@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
 
 db = SQLAlchemy(app)
 
-TIMESPAN = timedelta(hours=0, minutes=0, seconds=10)
+TIMESPAN = timedelta(hours=0, minutes=6, seconds=0)
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), index=True, unique=False)
