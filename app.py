@@ -1,6 +1,6 @@
 # Installed
-import contr
-from contr import cat_move, butterfly_move, init_GPIO
+import mock_contr
+from mock_contr import cat_move, butterfly_move, init_GPIO
 
 from forms import AddItemForm, AddStepForm, EditItemForm
 from datetime import datetime, timedelta
@@ -15,6 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
 db = SQLAlchemy(app)
 
 TIMESPAN = timedelta(hours=0, minutes=6, seconds=0)
+
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), index=True, unique=False)
@@ -342,10 +343,10 @@ def add_item_submit():
 def check_achievement(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.achievement_flag[committed_id] or item_id is None:
+    if not mock_contr.achievement_flag[committed_id] or item_id is None:
         abort(404)
     else:
-        contr.achievement_flag[committed_id] = False
+        mock_contr.achievement_flag[committed_id] = False
         return redirect(url_for("todo"))
 
 
@@ -367,10 +368,10 @@ def achievement(committed_id):
 def check_fail(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.fail_flag[committed_id] or item_id is None:
+    if not mock_contr.fail_flag[committed_id] or item_id is None:
         abort(404)
     else:
-        contr.fail_flag[committed_id] = False
+        mock_contr.fail_flag[committed_id] = False
         return redirect(url_for("todo"))
 
 
