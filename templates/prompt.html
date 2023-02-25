@@ -3,11 +3,10 @@
 {% block prompt %}
 
 <div class="prompt_container">
-
-        <div class = "item-container">
-            <div id = time>
-                Time's up!
-            </div>
+        <div id = time class="prompt-title">
+            Time's up!
+        </div>
+        <div class = "item-element">
           <div id=prompt_name class="item">
               <div>
                   {% if step_list[item['committed_id']] == None %}
@@ -17,7 +16,6 @@
                   {% endif %}
               </div>
           </div>
-
           <div class="item-form">
             <form method="POST">
               <input type="submit" class="pos" name="{{item.id}}" value="Finish">

@@ -19,7 +19,7 @@ class AddItemForm(FieldsRequiredForm):
 
 class AddStepForm(FieldsRequiredForm):
     name = StringField("Step Name", render_kw={"placeholder": "Add Step"}, validators=[DataRequired()])
-    submit = SubmitField("Add Step")
+    submit = SubmitField("")
 
 
 class EditItemForm(FieldsRequiredForm):

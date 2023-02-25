@@ -4,17 +4,13 @@
 
 <div id=extend class="prompt_container">
 
-        <div id = time>
+        <div id = time class="prompt-title">
             Add a step
         </div>
-        <div class = "item-container">
-
-            <form action = "{{url_for('add_step_submit_prompt', item_id = item.id)}}" class="addform"  method="POST" >
-              {{ add_step.hidden_tag() }}
-              {{add_step.name()}}
-              {{add_step.submit()}}
-            </form>
-        </div>
-
+        <form action = "{{url_for('add_step_submit_prompt', item_id = item.id)}}" class="addform"  method="POST" >
+          {{ add_step.hidden_tag() }}
+          {{add_step.name()}}
+          {{add_step.submit()}}
+        </form>
 </div>
  {% endblock %}

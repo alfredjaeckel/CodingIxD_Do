@@ -3,169 +3,115 @@
 {% block content %}
 
 <header>
-    <form action = "{{url_for('add_item_submit')}}" class="addform"  method="POST" >
+    <form action="{{url_for('add_item_submit')}}" method="POST" class="addform">
         {{add_item.hidden_tag()}}
         {{add_item.name()}}
-
         {{add_item.submit()}}
-  </form>
+    </form>
 </header>
 
 <div class="lists-grid-container">
-
     {% block prompt %}
     {% endblock %}
-    {% if committed_items[0]%}
-  <div id= commit_table>
+    {% if committed_items[0] %}
+      <div id="commit_table">
         {% for item in committed_items %}
-
-        <div id="commit{{item['committed_id']}}" class="committed">
-            <div id="cat{{item['committed_id']}}" class="cat">
-
+          <div id="commit{{ item['committed_id'] }}" class="committed">
+            <div id="rope">
             </div>
-              <div id = comm_name>
-                  {% if step_list[item['committed_id']] == None %}
-                    {{item['name']}}
-                  {% else %}
-                    {{step_list[item['committed_id']]['name']}}
-                  {% endif %}
-              </div>
-
-
-                <div class="countdown">
-                    <!-- insert countdown widget here for testing -->
-                    <p id="countdown{{item.id}}"></p>
-
-                        <script>
-                          // Set the date we're counting down to
-                          var countDownDate{{item.id}} = new Date("{{item.due_time}}").getTime();
-
-                          // Update the count down every 1 second
-                          var x{{item.id}} = setInterval(function() {
-
-                            // Get today's date and time
-                            var now{{item.id}} = new Date().getTime();
-
-                            // Find the distance between now and the count down date
-                            var distance{{item.id}} = countDownDate{{item.id}} - now{{item.id}};
-
-                            //console.log(distance{{item.id}});
-
-                            var remove = distance{{item.id}};
-
-                            var delta = 360000;
-
-                            var result = 0;
-
-                            // Time calculations for days, hours, minutes and seconds
-                            var days{{item.id}} = Math.floor(distance{{item.id}} / (1000 * 60 * 60 * 24));
-                            var hours{{item.id}} = Math.floor((distance{{item.id}} % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            var minutes{{item.id}} = Math.floor((distance{{item.id}} % (1000 * 60 * 60)) / (1000 * 60));
-
-                            // Display the result in the element with id="demo"
-                            //document.getElementById("countdown{{item.id}}").innerHTML = days{{item.id}} + "d " +
-                                                                                        hours{{item.id}} + "h " +
-                                                                                        minutes{{item.id}} + "m ";
-
-                            // If the count down is finished, write some text
-                            if (distance{{item.id}} < 0) {
-                                if (window.location.href.indexOf("prompt") <= -1){
-                                    window.location.href = '/prompt/{{item.id}}';
-                                }
-
-                                clearInterval(x{{item.id}});
-                                //document.getElementById("countdown{{item.id}}").innerHTML = "OVERDUE";
-                            }
-                            if(distance{{item.id}} > 0){
-                                result = parseInt((720 - (remove / delta) * 720));
-                            }
-                            
-                            document.documentElement.style.setProperty(('--cat_height{{item['committed_id']}}'), (String(result) + 'px'));
-                          }, 1000);
-                      </script>
-                </div>
-
-              <div class="item-form">
-                <form method="POST">
-                  <input type="submit" class="pos" name="{{item.id}}" value="Complete">
-
-                  <input type="submit" class="neutral" name="{{item.id}}" value="Edit">
-                </form>
-
-              </div>
-
-        </div>
-        {% endfor %}
-  </div>
-    {%endif%}
-
-
-  <table class="list" id= todo_table>
-    <tbody>
-        <tr>
-            <td id=todo_head class="list_head">
-                ToDo
-            </td>
-        </tr>
-        {% for item in todo_items %}
-        <tr class = "item-container">
-            <td class = "item_element">
-              <div class="item">
-                  <div>
-                    {{item['name']}}
-                  </div>
-              </div>
-
-              <div class="item-form">
-                <form method="POST">
-                  <input type="submit" class="pos" name="{{item.id}}" value="Complete">
-
-                  <input type="submit" class="neutral" name="{{item.id}}" value="Edit">
-
-                  <input type="submit" class="neutral" name="{{item.id}}" value="Commit">
-                </form>
-              </div>
-            </td>
-        </tr>
-
-        {% endfor %}
-    </tbody>
-  </table>
-
-
-  <table class="list" id= completed_table>
-  <tbody>
-      <tr>
-        <td id=done_head class="list_head">
-            Completed
-        </td>
-    </tr>
-      {% for item in completed_items %}
-      <tr class = "item-container">
-          <td class = "item_element">
-            <div class="item">
-                <div>
-                  {{item['name']}}
-                </div>
+            <div id="cat{{ item['committed_id'] }}" class="cat"></div>
+            <div id="comm_name">
+              {% if step_list[item['committed_id']] == None %}
+                {{ item['name'] }}
+              {% else %}
+                {{ step_list[item['committed_id']]['name'] }}
+              {% endif %}
             </div>
-
+            <div class="countdown">
+              <p id="countdown{{ item.id }}"></p>
+              <script>
+                var countDownDate{{ item.id }} = new Date("{{ item.due_time }}").getTime();
+                var x{{ item.id }} = setInterval(function() {
+                  var now{{ item.id }} = new Date().getTime();
+                  var distance{{ item.id }} = countDownDate{{ item.id }} - now{{ item.id }};
+                  var remove = distance{{ item.id }};
+                  var delta = 360000;
+                  var result = 0;
+                  var days{{ item.id }} = Math.floor(distance{{ item.id }} / (1000 * 60 * 60 * 24));
+                  var hours{{ item.id }} = Math.floor((distance{{ item.id }} % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  var minutes{{ item.id }} = Math.floor((distance{{ item.id }} % (1000 * 60 * 60)) / (1000 * 60));
+                  if (distance{{ item.id }} < 0) {
+                    if (window.location.href.indexOf("prompt") <= -1) {
+                      window.location.href = '/prompt/{{ item.id }}';
+                    }
+                    clearInterval(x{{ item.id }});
+                  }
+                  if (distance{{ item.id }} > 0) {
+                    result = (44 - (remove / delta) * 44);
+                  }
+                  document.documentElement.style.setProperty('--cat_height{{ item['committed_id'] }}', (String(result) + 'vw'));
+                }, 1000);
+              </script>
+            </div>
             <div class="item-form">
               <form method="POST">
-                <input type="submit" class="negative" name="{{item.id}}" value="Uncomplete">
-
-                <input type="submit" class="neutral" name="{{item.id}}" value="Edit">
-
-                <input type="submit" class="neutral" name="{{item.id}}" value="Commit">
+                  <input type="submit" class="neutral" name="{{ item.id }}" value="Edit">
+                  <input type="submit" class="pos" name="{{ item.id }}" value="Complete">
               </form>
             </div>
-          </td>
-      </tr>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <table class="list" id="todo_table">
+        <tbody>
+            <tr>
+                <td id="todo_head" class="list_head">ToDo</td>
+            </tr>
+            {% for item in todo_items %}
+            <tr class="item-container">
+                <td class="item-element">
+                    <div class="item">
+                        <div>{{item['name']}}</div>
+                    </div>
 
-      {% endfor %}
-  </tbody>
-</table>
+                    <div class="item-form">
+                        <form method="POST">
+                            <input type="submit" class="neutral" name="{{item.id}}" value="Edit">
+                            <input type="submit" class="pos" name="{{item.id}}" value="Complete">
+                            <input type="submit" class="neutral" name="{{item.id}}" value="Commit">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
+    <table class="list" id="completed_table">
+        <tbody>
+            <tr>
+                <td id="done_head" class="list_head">Completed</td>
+            </tr>
+            {% for item in completed_items %}
+            <tr class="item-container">
+                <td class="item-element">
+                    <div class="item">
+                        <div>{{item['name']}}</div>
+                    </div>
 
-
+                    <div class="item-form">
+                        <form method="POST">
+                            <input type="submit" class="neutral" name="{{item.id}}" value="Edit">
+                            <input type="submit" class="negative" name="{{item.id}}" value="Uncomplete">
+                            <input type="submit" class="neutral" name="{{item.id}}" value="Commit">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
- {% endblock %}
+
+{% endblock %}

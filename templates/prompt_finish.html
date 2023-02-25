@@ -3,17 +3,15 @@
 {% block prompt %}
 
 <div class="prompt_container">
-
-        <div class = "item-container">
-            <div id = time>
-                Continue project or extend?
-            </div>
+        <div id = time class="prompt-title">
+            Continue project or extend?
+        </div>
+        <div class = "item-element">
           <div id=prompt_name class="item">
               <div>
                 {{item['name']}}
               </div>
           </div>
-
           <div class="item-form">
             <form method="POST">
               <input type="submit" class="pos" name="{{item.id}}" value="Continue">
