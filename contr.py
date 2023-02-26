@@ -25,7 +25,7 @@ step_up = [
     [1, 0, 0, 1]
 ]
 
-stepper_cat = [[12, 16, 18, 22], [], []]
+stepper_cat = [[12, 16, 18, 22], [0,0,0,0], [0,0,0,0]]
 
 stepper_but = [7, 11, 13, 15]
 
@@ -44,13 +44,13 @@ but_flag = False
 cat_flag = False
 
 
-def cat_move_runner(motor):
+def cat_move_runner(up, motor):
 
-    while True:
-        for pin in stepper_cat[motor]:
-            GPIO.setup(pin, GPIO.OUT)
-            GPIO.output(pin, 0)
+    for pin in stepper_cat[motor]:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, 0)
 
+    if up:
         for i in range(1600):
             for step in step_up:
                 GPIO.output(stepper_cat[motor], step)
@@ -60,15 +60,17 @@ def cat_move_runner(motor):
                 time.sleep(0.001)
             time.sleep(0.08)
 
-        for i in range(1100):
+    else:
+        for i in range(1600):
             for step in step_down:
                 GPIO.output(stepper_cat[motor], step)
                 time.sleep(0.001)
-        GPIO.output(stepper_cat[motor], [0, 0, 0, 0])
+
+    GPIO.output(stepper_cat[motor], [0, 0, 0, 0])
 
 
-def cat_move(motor):
-    process = threading.Thread(target=cat_move_runner, args=(motor,))
+def cat_move(up, motor):
+    process = threading.Thread(target=cat_move_runner, args=(up, motor,))
     process.start()
     print("cat is moving")
 
@@ -102,20 +104,6 @@ def butterfly_move():
     print("butterfly will be moving")
     process_butterfly.start()
     print("butterfly is moving")
-
-
-
-
-def achievement_press(button, ev=None):
-    global achievement_flag
-    achievement_flag[button] = True
-    print("press")
-
-
-def fail_press(button, ev=None):
-    global fail_flag
-    fail_flag[button] = True
-    print("press")
 
 
 def init_GPIO():
