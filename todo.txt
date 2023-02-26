@@ -1,6 +1,7 @@
-add step completion on button action
+position tracking for caterpillars
 
-add step prompt on fail
+define slots for caterpillars in app ( make them not choose position randomly)
 
-add new step or complete task if step exists
+fix buttons when text extends to second line
 
+pass time to javascript
