@@ -1,19 +1,21 @@
-{% extends "/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
-<div id="block"></div>
-
-<div class="item-grid-container">
-
-  <div class="item-btns">
+<div id="block">
+  <div class="item-form">
     <form method="POST">
       <input type="submit" id="delete" class="neg" name="{{ item.id }}" value="Delete">
       <input type="submit" id="home" class="neutral" name="{{ item.id }}" value="Return">
     </form>
   </div>
+</div>
 
-  <div id="item-info">
+<div id="edit_rope">
+</div>
+
+
+<div id="item-info">
 
     <div class="item-description">
       <form action="{{ url_for('edit_item_submit', item_id=item.id) }}" class="editform" method="POST">
@@ -24,55 +26,45 @@
 
   </div>
 
-  <div class="steps-container">
+<div class="lists-grid-container" id="step-grid">
     {% if steps[0] %}
-    <table id="steptable">
-      <tbody>
-        <tr class="steps-container">
-          <td class="step-title">Steps</td>
+    <table id="steptable" class="list">
+        <tr>
+          <td class="list_head">Steps</td>
         </tr>
-      {% endif %}
 
-      {% for step in steps %}
-      <tr class="step-container">
-        <td class="step-container">
-          <div class="step-name">{{ step.name }}</div>
-          {% if step.complete == True %}
-          <div class="step-complete">
-            <div class="step-traffic-light" style="background-color: #5cb85c;"></div>
-          </div>
-          {% elif step.complete == False %}
-          <div class="step-complete">
-            <div class="step-traffic-light" style="background-color: #d9534f;"></div>
-          </div>
-          {% endif %}
-          <div class="step-actions">
-            <form method="POST" class="step-form">
-              {% if step.complete == False %}
-              <input type="submit" class="pos" name="{{ step.id }}" value="Done">
-              {% elif step.complete == True %}
-              <input type="submit" class="neg" name="{{ step.id }}" value="Undo">
-              {% endif %}
-              <input type="submit" class="neg" name="{{ step.id }}" value="Remove">
-            </form>
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
+        {% for step in steps %}
+        <tr class="item-container">
+            <td class="item-element">
+                <div class="item">
+                    {{ step.name }}
+                </div>
+                <div class="item-form">
+                    <form method="POST">
+                        {% if step.complete == False %}
+                        <input type="submit" class="pos" name="{{step.id}}" value="Complete">
+                        {% elif step.complete == True %}
+                        <input type="submit" class="neg" name="{{step.id}}" value="Uncomplete">
+                        {% endif %}
+                        <input type="submit" class="neg" name="{{step.id}}" value="Remove">
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
-
-    <footer>
-      <div id="step_bar">
-        <form action="{{ url_for('add_step_submit', item_id=item.id) }}" class="addform" method="POST">
-          {{ add_step.hidden_tag() }}
-          {{ add_step.name() }}
-          {{ add_step.submit() }}
-        </form>
-      </div>
-    </footer>
-
-  </div>
-
+    {% endif %}
 </div>
+
+<footer>
+    <div id="step_bar">
+        <form action="{{ url_for('add_step_submit', item_id=item.id) }}" class="addform" method="POST">
+            {{ add_step.hidden_tag() }}
+            {{ add_step.name() }}
+            {{ add_step.submit() }}
+        </form>
+    </div>
+</footer>
+
 
 {% endblock %}
