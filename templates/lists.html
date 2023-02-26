@@ -35,11 +35,8 @@
                   var now{{ item.id }} = new Date().getTime();
                   var distance{{ item.id }} = countDownDate{{ item.id }} - now{{ item.id }};
                   var remove = distance{{ item.id }};
-                  var delta = 360000;
+                  var delta = 604800000;
                   var result = 0;
-                  var days{{ item.id }} = Math.floor(distance{{ item.id }} / (1000 * 60 * 60 * 24));
-                  var hours{{ item.id }} = Math.floor((distance{{ item.id }} % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                  var minutes{{ item.id }} = Math.floor((distance{{ item.id }} % (1000 * 60 * 60)) / (1000 * 60));
                   if (distance{{ item.id }} < 0) {
                     if (window.location.href.indexOf("prompt") <= -1) {
                       window.location.href = '/prompt/{{ item.id }}';

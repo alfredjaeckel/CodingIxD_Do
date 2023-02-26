@@ -7,14 +7,14 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__, instance_path='/Users/alfred/PycharmProjects/CodingIxD_Do/instance')
+app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET_PROJECT'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toDoListDB.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
 
 db = SQLAlchemy(app)
 
-TIMESPAN = timedelta(hours=0, minutes=6, seconds=0)
+TIMESPAN = timedelta(days=7, hours=1, minutes=0, seconds=0)
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,10 +54,13 @@ def commit(committed_items, name):
         print(committed_id)
         if 0 not in committed_id:
             item.committed_id = 0
+            cat_move(True, 0)
         elif 1 not in committed_id:
             item.committed_id = 1
+            cat_move(True, 0)
         elif 2 not in committed_id:
             item.committed_id = 2
+            cat_move(True, 0)
         else:
             print("committed_id failure")
         item.complete = False
@@ -251,14 +254,16 @@ def item(item_id):
         [(name, action)] = request.form.items()
 
         # Step Actions
-        if action == "Done":
+        if action == "Complete":
             step = Step.query.get(name)
             step.complete = True
             db.session.commit()
-        elif action == "Undo":
+            print("step completed")
+        elif action == "Uncomplete":
             step = Step.query.get(name)
             step.complete = False
             db.session.commit()
+            print("step uncompleted")
         elif action == "Remove":
             step = Step.query.get(name)
             db.session.delete(step)
