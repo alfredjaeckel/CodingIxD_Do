@@ -4,6 +4,7 @@ We have a Flask based webapplication for managing a ToDo-List. The Projects main
 Every prioritized task has a countdown that runs for a week. The code is then running a python script to turn a stepper motor for that perios of time. 
 After the time runs up you then will be prompted to make an easier goal, if you have not completed the task.
 
+![Algorithm](jojojojo.png)
 
 
 
