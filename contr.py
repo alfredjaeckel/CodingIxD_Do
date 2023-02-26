@@ -1,9 +1,14 @@
 import threading
 
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except ModuleNotFoundError:
+    import mock_GPIO as GPIO
+    print("No RPi.GPIO found")
+
 import time
 
-step_down =  [
+step_down = [
     [1,0,0,1],
     [1,0,0,0],
     [1,1,0,0],
@@ -108,14 +113,4 @@ def butterfly_move():
 
 def init_GPIO():
     GPIO.setmode(GPIO.BOARD)
-    for button in range(1):
-        GPIO.setup(achieve_button[button], GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(fail_button[button], GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-        GPIO.add_event_detect(achieve_button[button], GPIO.RISING, callback=lambda x: achievement_press(button),
-                              bouncetime=50)
-        GPIO.add_event_detect(fail_button[button], GPIO.RISING, callback=lambda y: fail_press(button),
-                              bouncetime=50)
-
-        cat_move(0)
 

@@ -1,6 +1,6 @@
 # Installed
-import mock_contr
-from mock_contr import cat_move, butterfly_move, init_GPIO
+import contr
+from contr import cat_move, butterfly_move, init_GPIO
 
 from forms import AddItemForm, AddStepForm, EditItemForm
 from datetime import datetime, timedelta
@@ -348,10 +348,10 @@ def add_item_submit():
 def check_achievement(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not mock_contr.achievement_flag[committed_id] or item_id is None:
+    if not contr.achievement_flag[committed_id] or item_id is None:
         abort(404)
     else:
-        mock_contr.achievement_flag[committed_id] = False
+        contr.achievement_flag[committed_id] = False
         return redirect(url_for("todo"))
 
 
@@ -373,10 +373,10 @@ def achievement(committed_id):
 def check_fail(committed_id):
     committed_id = int(committed_id)
     item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not mock_contr.fail_flag[committed_id] or item_id is None:
+    if not contr.fail_flag[committed_id] or item_id is None:
         abort(404)
     else:
-        mock_contr.fail_flag[committed_id] = False
+        contr.fail_flag[committed_id] = False
         return redirect(url_for("todo"))
 
 
