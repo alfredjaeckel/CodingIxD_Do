@@ -137,7 +137,7 @@ input[type=submit] {
 	margin: 30px;
 	font-family: Arial, sans-serif;
 	font-weight: bold;
-	font-size: 30pt;
+	font-size: 22pt;
 	text-align: center;
 	display: flex;
 	justify-content: space-between;
@@ -182,9 +182,9 @@ input[type=submit] {
 
 #comm_name{
 	position: absolute;
-	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
 	overflow: hidden;
-	text-overflow: ellipsis;
 	height : 8vw;
 	width: calc(100% - 20px);
 	margin: 10px 10px;
@@ -241,7 +241,7 @@ table.list{
 
 .item{
 	position: relative;
-	font-size: 30pt;
+	font-size: 22pt;
 	padding : 0 0;
 	margin : 0 0;
 	overflow: clip;
@@ -312,7 +312,7 @@ table.list{
 
 #item-info input[type=text]{
 	background-color: rgba(0,0,0,0);
-    font-size: 45pt;
+    font-size: 30pt;
 	font-weight: bold;
 	border: none;
 	text-align: center;
@@ -325,7 +325,7 @@ table.list{
 #edit_rope{
 	position : fixed;
 	left : 100px;
-	top : 230px;
+	top : 210px;
 	background-repeat: no-repeat;
 	width : 200px;
 	height: calc(100vh - 300px);
