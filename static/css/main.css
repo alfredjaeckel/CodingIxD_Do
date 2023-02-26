@@ -1,14 +1,14 @@
 :root{
-	--cat_height0 : 0px;
-	--cat_height1 : 0px;
-	--cat_height2 : 0px;
+	--cat_height0 : 0vw;
+	--cat_height1 : 0vw;
+	--cat_height2 : 0vw;
 }
 
 body{
     font-family: Arial, sans-serif;
     background-color: #FDFCE8;
 	position: relative;
-	top : 127px;
+	top : 125px;
 	width : auto;
 }
 
@@ -51,6 +51,10 @@ input[type=submit] {
 	background: rgba(0, 0, 0, 0) url(../svg/button_add_task.svg) no-repeat;
 }
 
+/*
+	The prompts to be displayed after a week
+*/
+
 .prompt_container{
 	position : relative;
 	margin : 30px 20px;
@@ -71,6 +75,10 @@ input[type=submit] {
 	font-weight: bold;
 	padding: 0 0 10px 0;
 }
+
+/*
+	General settings for items to be displayed
+*/
 
 .item-element{
 	position : relative;
@@ -95,13 +103,31 @@ input[type=submit] {
 	background-image: url("../svg/button_extend.svg");
 }
 
-.item-form input[value = Finish]{
+.item-form input[value = Finish], input[value = Continue], input[value=Complete]{
 	background-image: url("../svg/button_complete.svg");
 }
 
-.item-form input[value = Continue]{
-	background-image: url("../svg/button_complete.svg");
+.item-form input[value=Commit]{
+	background-image: url("../svg/button_commit.svg");
 }
+
+.item-form input[value=Uncomplete]{
+	background-image: url("../svg/button_redo.svg");
+}
+
+.item-form input[value="Edit"] {
+	position: absolute;
+	width: calc(100vw - 240px);
+	height: 100%;
+	top : 0;
+  	left : 20px;
+	background-image: unset;
+}
+
+
+/*
+	Special settings for the committed table
+*/
 
 #commit_table{
 	position : relative;
@@ -111,7 +137,7 @@ input[type=submit] {
 	margin: 30px;
 	font-family: Arial, sans-serif;
 	font-weight: bold;
-	font-size: 22pt;
+	font-size: 30pt;
 	text-align: center;
 	display: flex;
 	justify-content: space-between;
@@ -122,7 +148,7 @@ input[type=submit] {
 	width : 100%;
 }
 
-#commit_table input[class=pos]{
+#commit_table input[value = Complete]{
 	background-image: url("../svg/button_complete_cat.svg");
 	margin-left: 0;
 }
@@ -164,7 +190,6 @@ input[type=submit] {
 	margin: 10px 10px;
 	flex : unset;
 }
-
 
 .cat{
 	position : absolute;
@@ -218,29 +243,6 @@ table.list{
 	overflow: clip;
 }
 
-.item-form input[value="Commit"]{
-	width : 20px;
-	background-image: url("../svg/button_commit.svg");
-}
-
-.item-form input[value="Complete"]{
-	background-image: url("../svg/button_complete.svg");
-}
-
-.item-form input[value="Uncomplete"]{
-	background-image: url("../svg/button_redo.svg");
-}
-
-.item-form input[value="Edit"] {
-	position: absolute;
-	width: calc(100vw - 240px);
-	height: 100%;
-	top : 0;
-  	left : 20px;
-	background-color: rgba(0,0,0,0);
-	background-image: unset;
-}
-
 #todo_table{
 	position : relative ;
 	top : 0;
@@ -254,196 +256,97 @@ table.list{
 
 
 
-
 #block{
 	position : fixed;
-	top : 0px;
-	left : 0px;
-	width : 1536px;
-	height : 300px;
+	top : 0;
+	left : 0;
+	width : 100%;
+	height : 150px;
 	z-index: 1;
 	background-color: #FDFCE8;
-
 }
 
 #delete{
-	position : fixed;
-	top : 50px;
-	left : 1386px;
-	width : 101px;
-	height : 101px;
+	position: absolute;
+	top : 25px;
+	right : 25px;
 	z-index: 2;
 	background-image: url("../svg/button_delete_red.svg");
-	background-color: rgba(0,0,0,0);
-	border : none;
-	color: rgba(0,0,0,0);
+	margin : 0;
 }
 
 #home{
-	position : fixed;
-	top : 50px;
-	left : 50px;
-	width : 101px;
-	height : 101px;
+	position: absolute;
+	top : 25px;
+	left : 25px;
 	z-index: 2;
 	background-image: url("../svg/button_home.svg");
-	background-color: rgba(0,0,0,0);
-	border : none;
-	color: rgba(0,0,0,0);
+	margin : 0;
 }
-
 
 
 #item-info{
 	position : fixed;
-	top : 200px;
-	left : 100px;
-	width : 1386px;
-	height : 1450px;
-	padding : 25px;
-	margin : 0;
-	z-index: 2;
-	background-image: url(../svg/edit_rope.svg);
+	top : 100px;
+	left : 0;
+	width : 100%;
 	background-repeat: no-repeat;
+	z-index: 2;
+}
+
+.item-description{
+	background : #E5F595;
+    padding: 30px 30px;
+	margin : 0 30px;
+	position : fixed ;
+	width: calc(100% - 120px);
+	border-radius: 60px;
+	box-shadow: 0 10px #C0ED8D;
 }
 
 #item-info input[type=text]{
-    background : rgba(0, 0, 0, 0);
-    padding: 0px 50px;
-	position : fixed ;
-	width: 1186px;
-    font-size: 90pt;
+	background-color: rgba(0,0,0,0);
+    font-size: 45pt;
 	font-weight: bold;
 	border: none;
 	text-align: center;
 	overflow: clip;
+	width : 100%;
+	padding: 0 0;
+	margin : 0 0;
 }
 
+#edit_rope{
+	position : fixed;
+	left : 100px;
+	top : 230px;
+	background-repeat: no-repeat;
+	width : 200px;
+	height: calc(100vh - 300px);
+	background-image: url("../svg/edit_rope.svg");
+	z-index: 1;
+}
 
+#step-grid{
+	position: relative;
+	top : 150px;
+	left : 30vw;
+	width : 70vw;
+}
+
+#steptable{
+	width : calc(100% - 20px);
+}
 
 footer{
 position : fixed;
 	left : 0;
 	bottom : 0;
-	width : 1536px;
-	height : 250px;
+	width : 100%;
 	z-index: 2;
-	margin: 0 0 0 0;
-    padding: 0;
     background: #FDD975;
 }
 
-
-footer input[type=text], select {
-    background : #FFFFFF;
-    padding: 0px 50px;
-	position : absolute ;
-	left : 50px;
-	top : 74px;
-	width : 1160px;
-	height : 130px;
-	border-radius : 60px;
-    font-size: 60pt;
-	border: none;
-}
-
-footer input[type=submit] {
-	background-color: rgba(0,0,0,0);
-	border: none;
-	position : absolute ;
-	left : 1356px;
-	top : 74px;
-	width : 130px;
-	height : 130px;
-    cursor: pointer;
-	color : rgba(0,0,0,0);
-	background-image : url(../svg/button_add_task.svg);
-}
-
-
-
-#steptable{
-	position: relative;
-	top : 500px;
-	left : 400px;
-	border-spacing: 40px;
-	padding : 0 0 230px;
-	width: 1050px;
-	height : 800px;
-}
-
-.step-title{
-	background-color : #FDD975;
-	border-color : #FDD975;
-	border-style : Solid;
-	border-radius : 65px;
-	height : 65px;
-	font-size: 65pt;
-	color : white;
-	text-align: center;
-	font-weight: bold;
-	padding: 0 0 0 0;
-}
-
-.step-container{
-	background : #FFFFFF;
-	border-style : Solid;
-	border-color : #FDD975;
-	border-width : 20px;
-	position : relative;
-	left : 0px;
-	top : 0px;
-	height : 130px;
-	padding : 0 35px;
-	border-radius : 60px;
-}
-
-
-.step-name{
-	position : absolute;
-	top : 20px;
-	width : 600px;
-	font-size: 60pt;
-	padding : 0 0 0 20px;
-	margin : 0 0;
-	overflow: clip;
-}
-
-.step-form input[value="Done"]{
-	background-color: rgba(0,0,0,0);
-	border: none;
-	color: rgba(0,0,0,0);
-	position : absolute ;
-	left : 710px;
-	top : 25px;
-	width : 80px;
-	height : 80px;
-	background-image: url("../svg/button_complete.svg");
-	background-repeat: no-repeat;
-}
-
-.step-form input[value="Undo"]{
-	background-color: rgba(0,0,0,0);
-	border: none;
-	color: rgba(0,0,0,0);
-	position : absolute ;
-	left : 710px;
-	top : 25px;
-	width : 80px;
-	height : 80px;
-	background-image: url("../svg/button_redo.svg");
-	background-repeat: no-repeat;
-}
-
-.step-form input[value="Remove"]{
-	background-color: rgba(0,0,0,0);
-	border: none;
-	color: rgba(0,0,0,0);
-	position : absolute ;
-	left : 810px;
-	top : 15px;
-	width : 101px;
-	height : 101px;
+.item-form input[value="Remove"]{
 	background-image: url("../svg/button_delete.svg");
-	background-repeat: no-repeat;
 }
