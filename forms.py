@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, RadioField, IntegerField, DateField, TimeField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
-from wtforms.fields import DateField
 
 
 class FieldsRequiredForm(FlaskForm):
@@ -10,6 +9,11 @@ class FieldsRequiredForm(FlaskForm):
             if field.type == "_Option":
                 render_kw.setdefault("required", True)
             return super().render_field(field, render_kw)
+
+
+'''
+    Forms used by the templates
+'''
 
 
 class AddItemForm(FieldsRequiredForm):
@@ -24,4 +28,4 @@ class AddStepForm(FieldsRequiredForm):
 
 class EditItemForm(FieldsRequiredForm):
     name = StringField("Item Name", validators=[DataRequired()])
-    submit = SubmitField("Save Changes")
+    submit = SubmitField("")

@@ -7,15 +7,18 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask(__name__, instance_path='/Users/alfred/PycharmProjects/CodingIxD_Do/instance')
 app.config['SECRET_KEY'] = 'SECRET_PROJECT'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toDoListDB.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
 
 db = SQLAlchemy(app)
 
+# one hour more required running linux on raspi
 TIMESPAN = timedelta(days=7, hours=1, minutes=0, seconds=0)
 
+
+# define the models for the database
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), index=True, unique=False)
@@ -42,8 +45,13 @@ class Step(db.Model):
             .format(self.item_id, self.id, self.name, self.number, self.complete)
 
 
+# initialise database
 with app.app_context():
     db.create_all()
+
+'''
+    Functions to handle button inputs on main page
+'''
 
 
 def commit(committed_items, name):
@@ -71,6 +79,7 @@ def commit(committed_items, name):
     else:
         print("To Many commitments")
 
+
 def complete(name):
     butterfly_move()
     item = Item.query.get(name)
@@ -95,16 +104,20 @@ def uncomplete(name):
     item.committed = False
     db.session.commit()
 
+
 def procede(name):
     item = Item.query.get(name)
     item.due_time = datetime.now() + TIMESPAN
     db.session.commit()
     return redirect(url_for("todo"))
+
+
 def extend(name):
     item = Item.query.get(name)
     item.due_time = datetime.now() + TIMESPAN
     db.session.commit()
     return redirect(url_for("prompt_fail", item_id=name))
+
 
 def get_steps(committed_items):
     step_list = [None, None, None]
@@ -116,7 +129,38 @@ def get_steps(committed_items):
     return step_list
 
 
-@app.route('/', methods=["GET", "POST"])
+'''
+    Functions for adding steps
+'''
+
+
+def add_step(item_id):
+    add_step_form = AddStepForm()
+    if add_step_form.validate_on_submit():
+        item = Item.query.get(item_id)
+        if (db.session.query(Step).filter(Step.item_id == item.id, Step.complete == False).count()) > 0:
+            undone_step = db.session.query(Step).filter(Step.item_id == item.id, Step.complete == False).order_by(
+                Step.number).first()
+            steps_count = undone_step.number
+            for step in db.session.query(Step).filter(Step.item_id == item.id, Step.number >= undone_step.number):
+                step.number = step.number + 1
+        else:
+            steps_count = len(item.steps.all()) + 1
+
+        step = Step(name=add_step_form.name.data, number=steps_count, item_id=item_id)
+        db.session.add(step)
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+
+
+'''
+    Routes for Websites
+'''
+
+
+@app.route('/', methods=["GET", "POST"])  # start page
 def todo():
     committed_items = Item.query.filter(Item.committed == True)
     todo_items = Item.query.filter(Item.committed == False, Item.complete == False)
@@ -144,7 +188,7 @@ def todo():
                            )
 
 
-@app.route('/prompt/<item_id>', methods=["GET", "POST"])
+@app.route('/prompt/<item_id>', methods=["GET", "POST"])  # prompt after a week
 def prompt(item_id):
     prompt_item = Item.query.get(item_id)
     committed_items = Item.query.filter(Item.committed == True)
@@ -180,7 +224,7 @@ def prompt(item_id):
                            )
 
 
-@app.route('/prompt_fail/<item_id>', methods=["GET", "POST"])
+@app.route('/prompt_fail/<item_id>', methods=["GET", "POST"])  # prompt on choosing extend in first prompt
 def prompt_fail(item_id):
     prompt_item = Item.query.get(item_id)
 
@@ -211,7 +255,8 @@ def prompt_fail(item_id):
                            add_item=AddItemForm(),
                            )
 
-@app.route('/prompt_finish/<item_id>', methods=["GET", "POST"])
+
+@app.route('/prompt_finish/<item_id>', methods=["GET", "POST"])  # prompt to add further step or continue project
 def prompt_finish(item_id):
     prompt_item = Item.query.get(item_id)
     committed_items = Item.query.filter(Item.committed == True)
@@ -245,7 +290,7 @@ def prompt_finish(item_id):
                            )
 
 
-@app.route("/item/<item_id>", methods=["GET", "POST"])
+@app.route("/item/<item_id>", methods=["GET", "POST"])  # edit page
 def item(item_id):
     item = Item.query.get(item_id)
 
@@ -288,7 +333,7 @@ def item(item_id):
                            )
 
 
-@app.route("/<item_id>/edit_item_submit", methods=["POST"])
+@app.route("/<item_id>/edit_item_submit", methods=["POST"])  # route for editing item name on edit page
 def edit_item_submit(item_id):
     edit_item_form = EditItemForm()
     # Fix
@@ -299,39 +344,19 @@ def edit_item_submit(item_id):
     return redirect(url_for("item", item_id=item_id))
 
 
-@app.route("/<item_id>/add_step_submit", methods=["POST"])
+@app.route("/<item_id>/add_step_submit", methods=["POST"])  # route for adding step on edit page
 def add_step_submit(item_id):
     add_step(item_id)
     return redirect(url_for("item", item_id=item_id))
 
 
-@app.route("/<item_id>/add_step_submit_prompt", methods=["POST"])
+@app.route("/<item_id>/add_step_submit_prompt", methods=["POST"])  # route for adding step in prompt
 def add_step_submit_prompt(item_id):
     add_step(item_id)
     return redirect(url_for("todo"))
 
-def add_step(item_id):
-    add_step_form = AddStepForm()
-    if add_step_form.validate_on_submit():
-        item = Item.query.get(item_id)
-        if (db.session.query(Step).filter(Step.item_id == item.id, Step.complete == False).count()) > 0:
-            undone_step = db.session.query(Step).filter(Step.item_id == item.id, Step.complete == False).order_by(
-                Step.number).first()
-            steps_count = undone_step.number
-            for step in db.session.query(Step).filter(Step.item_id == item.id, Step.number >= undone_step.number):
-                step.number = step.number + 1
-        else:
-            steps_count = len(item.steps.all()) + 1
 
-        step = Step(name=add_step_form.name.data, number=steps_count, item_id=item_id)
-        db.session.add(step)
-        try:
-            db.session.commit()
-        except Exception:
-            db.session.rollback()
-
-
-@app.route("/add_item_submit", methods=["POST"])
+@app.route("/add_item_submit", methods=["POST"])  # route for adding item on main page
 def add_item_submit():
     add_item_form = AddItemForm()
     if add_item_form.validate_on_submit():
@@ -344,54 +369,14 @@ def add_item_submit():
         return redirect(url_for("todo"))
 
 
-@app.route("/<committed_id>/check_achievement", methods=["GET", "POST"])
-def check_achievement(committed_id):
-    committed_id = int(committed_id)
-    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.achievement_flag[committed_id] or item_id is None:
-        abort(404)
-    else:
-        contr.achievement_flag[committed_id] = False
-        return redirect(url_for("todo"))
-
-
-@app.route("/<committed_id>/achievement", methods=["GET", "POST"])
-def achievement(committed_id):
-    committed_id = int(committed_id)
-    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-
-    item = Item.query.get(item_id)
-    item.committed_id = None
-    item.complete = True
-    item.committed = False
-    db.session.commit()
-
-    return redirect(url_for("item", item_id=item_id))
-
-
-@app.route("/<committed_id>/check_fail", methods=["GET", "POST"])
-def check_fail(committed_id):
-    committed_id = int(committed_id)
-    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    if not contr.fail_flag[committed_id] or item_id is None:
-        abort(404)
-    else:
-        contr.fail_flag[committed_id] = False
-        return redirect(url_for("todo"))
-
-
-@app.route("/<committed_id>/fail", methods=["GET", "POST"])
-def fail(committed_id):
-    committed_id = int(committed_id)
-    item_id = db.session.query(Item.id).filter(Item.committed_id == committed_id).scalar()
-    return redirect(url_for("item", item_id=item_id))
-
+'''
+    Initialise webpage 
+'''
 
 if __name__ == '__main__':
     try:
         init_GPIO()
         app.run(host='0.0.0.0')
     finally:
-        # GPIO.cleanup()
-        print("clean")
+        print("Website shutdown")
 

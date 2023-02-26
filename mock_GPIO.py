@@ -1,3 +1,7 @@
+'''
+    Mock GPIO to allow for testing without raspberry pi
+'''
+
 OUT = None
 BOARD = None
 

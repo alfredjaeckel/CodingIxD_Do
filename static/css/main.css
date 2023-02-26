@@ -213,6 +213,10 @@ input[type=submit] {
 	top : calc(55vw - var(--cat_height2));
 }
 
+/*
+	General Table settings
+*/
+
 table.list{
 	border-spacing: 20px;
 	width: 100%;
@@ -254,7 +258,9 @@ table.list{
 	top : 0;
 }
 
-
+/*
+	Edit page specific settings
+*/
 
 #block{
 	position : fixed;
