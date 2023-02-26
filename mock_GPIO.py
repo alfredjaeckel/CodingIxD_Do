@@ -8,12 +8,15 @@ BOARD = None
 
 
 def setup(arg0=None, arg1=None, arg2=None):
-    print("GPIO.setup")
+    foo = None
+    #print("GPIO.setup")
 
 
 def output(arg0=None, arg1=None, arg2=None):
-    print("GPIO output")
+    foo = None
+    #print("GPIO output")
 
 
 def setmode(arg0=None, arg1=None, arg2=None):
-    print("GPIO setmode")
+    foo = None
+    #print("GPIO setmode")
