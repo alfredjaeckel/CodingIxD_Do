@@ -38,7 +38,7 @@ Priorities:
     
 You can always finish an Item or Edit it even if it is not Prioritized.
 
-PLEASE IMAGE OF THE APP HERE
+![app](appvisual.PNG)
 
 ## Physical
 
@@ -52,7 +52,7 @@ The movements of the caterpillars are correspondend to the weekly timer of the p
 The Flask based WebApplication as well as the steppermotors are powered by one Raspberry Pi Zero. 
   
   
-PLEASE IMAGE OF DEVICE HERE.
+![device](devicevisual.jpg)
     
     
 ## Footnotes
