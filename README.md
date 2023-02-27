@@ -47,10 +47,12 @@ For implementing our idea we have a physical device. The device has 3 "caterpill
 The fan and one caterpillar are equipped with a stepper motor each. Because of our budget and time limitations only one caterpillar is powered by a motor.
 The movements of the caterpillars are correspondend to the weekly timer of the prioritized tasks. The Butterfly activates with the completion of any task or step.
 
-PLEASE IMAGE OF DEVICE HERE.
+
 
 The Flask based WebApplication as well as the steppermotors are powered by one Raspberry Pi Zero. 
   
+  
+PLEASE IMAGE OF DEVICE HERE.
     
     
 ## Footnotes
