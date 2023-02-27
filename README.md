@@ -38,6 +38,8 @@ Priorities:
     
 You can always finish an Item or Edit it even if it is not Prioritized.
 
+PLEASE IMAGE OF THE APP HERE
+
 ## Physical
 
 For implementing our idea we have a physical device. The device has 3 "caterpillars" hanging from it and a fan that resembles a butterfly.
@@ -48,16 +50,17 @@ The movements of the caterpillars are correspondend to the weekly timer of the p
 PLEASE IMAGE OF DEVICE HERE.
 
 The Flask based WebApplication as well as the steppermotors are powered by one Raspberry Pi Zero. 
-
-
-
-
-
-
-###Footnotes
+  
+    
+    
+## Footnotes
 
 This code was developed for a university project with Alfred Jäckel & Michael Migacev from FU Berlin in collaboration with Sewon Kim from KHB Weißensee.
 
-https://www.codingixd.org/lets-get-physical/
+Our project was featured on:  
+The Homepage - https://www.codingixd.org/lets-get-physical/  
+https://www.art-in-berlin.de/ausstellungs-text.php?id=12320  
+https://citylab-berlin.org/de/events/lets-get-physical/  
+https://citylab-berlin.org/de/events/die-labissage-2/  
 
-Although almost none of it is left anymore we have found https://github.com/GRitchie1/Balena_ToDoList to be a very helpful starting point for our prokect.
+Although almost none of it is left anymore we have found https://github.com/GRitchie1/Balena_ToDoList to be a very helpful starting point for our project.
