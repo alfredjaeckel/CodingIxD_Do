@@ -62,5 +62,8 @@ The Homepage - https://www.codingixd.org/lets-get-physical/
 https://www.art-in-berlin.de/ausstellungs-text.php?id=12320  
 https://citylab-berlin.org/de/events/lets-get-physical/  
 https://citylab-berlin.org/de/events/die-labissage-2/  
+https://www.matters-of-activity.de/de/activities/10114/let-s-get-physical  
+https://kh-berlin.de/kalender/665  
+
 
 Although almost none of it is left anymore we have found https://github.com/GRitchie1/Balena_ToDoList to be a very helpful starting point for our project.
