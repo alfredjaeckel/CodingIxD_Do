@@ -1,7 +1,15 @@
 position tracking for caterpillars
 
-define slots for caterpillars in app ( make them not choose position randomly)
+define slots for caterpillars in app ( make placeholder for missing caterpillars)
 
-fix buttons when text extends to second line
+format buttons when text extends to second line
 
 pass time to javascript
+
+show table headlines only if items exist
+
+replace outdated sql-alchemy code
+
+commited items title length
+
+steps container length
