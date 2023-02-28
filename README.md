@@ -76,7 +76,6 @@ To install the project you first need to get a raspberry pi and an operating sys
 
 To run the server please refer to the flask documentation, it may vary depending on your preferences.
 
-##
     
 ## Credits & Footnotes
 
@@ -84,7 +83,7 @@ This code was developed for a university project with Alfred Jäckel & Michael M
 
 Alfred Jäckel - alfred.thomas.jaeckel@gmail.com  -  https://github.com/alfredjaeckel  
 Michael Migacev - micha.migacev@gmail.com  - https://github.com/MichaelMigacev  
-Sewon Kim -  
+Sewon Kim - sewon.kim@stud.kh-berlin.de
 
 Our project was featured on:  
 The Homepage - https://www.codingixd.org/lets-get-physical/  
