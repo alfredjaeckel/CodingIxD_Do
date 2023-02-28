@@ -43,9 +43,13 @@
                     }
                     clearInterval(x{{ item.id }});
                   }
-                  if (distance{{ item.id }} > 0) {
+                  if ((delta > distance{{ item.id }}) && (distance{{ item.id }} > 0 )) {
                     result = (44 - (remove / delta) * 44);
                   }
+                  else if (distance{{ item.id }} < 0 ){
+                      result = 44;
+                  }
+
                   document.documentElement.style.setProperty('--cat_height{{ item['committed_id'] }}', (String(result) + 'vw'));
                 }, 1000);
               </script>

@@ -87,6 +87,7 @@ input[type=submit] {
 	border-radius: 20px;
 	display: flex;
   	justify-content: space-between;
+	align-items: center;
 }
 
 .item-form input{
@@ -140,6 +141,7 @@ input[type=submit] {
 	font-size: 22pt;
 	text-align: center;
 	display: flex;
+	flex-direction: row;
 	justify-content: space-between;
 }
 
@@ -213,6 +215,19 @@ input[type=submit] {
 	top : calc(55vw - var(--cat_height2));
 }
 
+#commit0{
+	align-self: flex-start;
+	order : 1;
+}
+#commit1{
+	align-self: center;
+	order : 2;
+}
+#commit2{
+	align-self: flex-end;
+	order : 3;
+}
+
 /*
 	General Table settings
 */
@@ -243,8 +258,9 @@ table.list{
 	position: relative;
 	font-size: 22pt;
 	padding : 0 0;
-	margin : 0 0;
+	margin : 0 0 0 0;
 	overflow: clip;
+	text-align: center;
 }
 
 #todo_table{
