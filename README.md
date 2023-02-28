@@ -30,7 +30,9 @@ We prioritize up to 3 tasks. For each task added a timer of 1 week starts. After
 If the task has failed the we add a checkpoint/step on the stack. It is important to notice that to reach the checkpoint should be easier than to complete the whole task. The Timer restarts. That means by "failing" the task every week we recursively start building a stack of ever easier getting checkpoints. 
 If the task has been successful we ask if it is the last item on the stack leave it in the priorities accordingly. If the stack is empty we have completed the task.
 
-![Algorithm](jojojojo.png)
+![Algorithm](algorithmvisual.png)
+
+Demo Video : https://youtu.be/ELjI5zZEdUI
 
 ## Technical
 
@@ -64,9 +66,11 @@ The movements of the caterpillars are correspondend to the weekly timer of the p
 
 
 The Flask based WebApplication as well as the steppermotors are powered by one Raspberry Pi Zero. 
-  
+
   
 ![device](devicevisual.jpg)
+
+Video of working functionality : https://youtu.be/1mP7hU-1o6Q
     
 ## Installation
 
