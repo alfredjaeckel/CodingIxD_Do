@@ -1,4 +1,18 @@
-# CodingIxD_DoDot
+# Do·Dot
+
+#### The project aims to help people procrastinate less on goals without deadlines.  
+
+## Table of contents
+
+1. Concept
+2. Technical
+3. Physical
+4. Installation
+5. Usage
+6. Credits & Footnotes
+7. Licences
+
+
 
 ## Conceptual
 
@@ -54,10 +68,23 @@ The Flask based WebApplication as well as the steppermotors are powered by one R
   
 ![device](devicevisual.jpg)
     
+## Installation
+
+To install the project you first need to get a raspberry pi and an operating system on said pi. Second you need clone our github repository. Please make sure that you have python 3 installed. You will be notified about packages you are missing.
+
+## Usage
+
+To run the server please refer to the flask documentation, it may vary depending on your preferences.
+
+##
     
-## Footnotes
+## Credits & Footnotes
 
 This code was developed for a university project with Alfred Jäckel & Michael Migacev from FU Berlin in collaboration with Sewon Kim from KHB Weißensee.
+
+Alfred Jäckel - alfred.thomas.jaeckel@gmail.com  
+Michael Migacev - micha.migacev@gmail.com
+Sewon Kim - 
 
 Our project was featured on:  
 The Homepage - https://www.codingixd.org/lets-get-physical/  
@@ -69,3 +96,6 @@ https://kh-berlin.de/kalender/665
 
 
 Although almost none of it is left anymore we have found https://github.com/GRitchie1/Balena_ToDoList to be a very helpful starting point for our project.
+
+## Licence  
+
