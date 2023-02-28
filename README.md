@@ -18,13 +18,13 @@
 
 The projects main goal is to help people who procrastinate with an emphasis on goals without deadlines. 
 
-For that we have singled out problem points:
-Forgetting
-Difficulty Starting
-Big Plans
-Too Many Tasks
+For that we have singled out problem points:  
+  - Forgetting
+  - Difficulty Starting
+  - Big Plans
+  - Too Many Tasks
 
-To combat these we have done many tests and surveys to develop an algorithm which helps people to procrastinate less.
+To combat these we have done many tests and surveys to develop an algorithm which helps people to procrastinate less:  
 
 We prioritize up to 3 tasks. For each task added a timer of 1 week starts. After the timer ends we ask if the ask has been successful. 
 If the task has failed the we add a checkpoint/step on the stack. It is important to notice that to reach the checkpoint should be easier than to complete the whole task. The Timer restarts. That means by "failing" the task every week we recursively start building a stack of ever easier getting checkpoints. 
