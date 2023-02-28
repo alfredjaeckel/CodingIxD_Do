@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__, instance_path='/Users/alfred/PycharmProjects/CodingIxD_Do/instance')
+app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET_PROJECT'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///toDoListDB.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # to supress warning
@@ -59,7 +59,6 @@ def commit(committed_items, name):
         item = Item.query.get(name)
         committed_id = db.session.query(Item.committed_id).filter(Item.committed == True)
         committed_id = [n[0] for n in committed_id]
-        print(committed_id)
         if 0 not in committed_id:
             item.committed_id = 0
             cat_move(True, 0)
@@ -75,7 +74,6 @@ def commit(committed_items, name):
         item.committed = True
         item.due_time = datetime.now() + TIMESPAN
         db.session.commit()
-        print(item.__repr__())
     else:
         print("To Many commitments")
 
@@ -86,7 +84,6 @@ def complete(name):
     if (db.session.query(Step.item_id).filter(Step.item_id == item.id, Step.complete == False).count()) > 0:
         step = db.session.query(Step).filter(Step.item_id == item.id, Step.complete == False) \
             .order_by(Step.number).first()
-        print(step)
         step.complete = True
         db.session.commit()
         return redirect(url_for("prompt_finish", item_id=name))
@@ -125,7 +122,6 @@ def get_steps(committed_items):
         if (db.session.query(Step.item_id).filter(Step.item_id == item.id, Step.complete == False).count()) > 0:
             step_list[item.committed_id] = db.session.query(Step.name).filter(Step.item_id == item.id, Step.complete == False) \
                 .order_by(Step.number).first()
-            print(step_list[item.committed_id])
     return step_list
 
 
@@ -303,12 +299,10 @@ def item(item_id):
             step = Step.query.get(name)
             step.complete = True
             db.session.commit()
-            print("step completed")
         elif action == "Uncomplete":
             step = Step.query.get(name)
             step.complete = False
             db.session.commit()
-            print("step uncompleted")
         elif action == "Remove":
             step = Step.query.get(name)
             db.session.delete(step)
