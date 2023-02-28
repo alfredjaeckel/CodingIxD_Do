@@ -82,9 +82,9 @@ To run the server please refer to the flask documentation, it may vary depending
 
 This code was developed for a university project with Alfred Jäckel & Michael Migacev from FU Berlin in collaboration with Sewon Kim from KHB Weißensee.
 
-Alfred Jäckel - alfred.thomas.jaeckel@gmail.com  -  
-Michael Migacev - micha.migacev@gmail.com  
-Sewon Kim - 
+Alfred Jäckel - alfred.thomas.jaeckel@gmail.com  -  https://github.com/alfredjaeckel  
+Michael Migacev - micha.migacev@gmail.com  - https://github.com/MichaelMigacev  
+Sewon Kim -  
 
 Our project was featured on:  
 The Homepage - https://www.codingixd.org/lets-get-physical/  
