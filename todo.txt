@@ -8,8 +8,6 @@ pass time to javascript
 
 show table headlines only if items exist
 
-replace outdated sql-alchemy code
-
 commited items title length
 
 steps container length
