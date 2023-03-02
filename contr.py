@@ -59,7 +59,6 @@ def cat_move_runner(up, motor):
 def cat_move(up, motor):
     process = threading.Thread(target=cat_move_runner, args=(up, motor,))
     process.start()
-    print("cat is moving")
 
 
 # function moving the butterfly selected
@@ -88,9 +87,7 @@ def butterfly_move_runner():
 # function to move caterpillar in new thread
 def butterfly_move():
     process_butterfly = threading.Thread(target=butterfly_move_runner)
-    print("butterfly will be moving")
     process_butterfly.start()
-    print("butterfly is moving")
 
 
 def init_GPIO():
