@@ -1,22 +1,38 @@
-# CodingIxD_DoDot
+# Do·Dot
+
+#### The project aims to help people procrastinate less on goals without deadlines.  
+
+## Table of contents
+
+1. Concept
+2. Technical
+3. Physical
+4. Installation
+5. Usage
+6. Credits & Footnotes
+7. Licences
+
+
 
 ## Conceptual
 
 The projects main goal is to help people who procrastinate with an emphasis on goals without deadlines. 
 
-For that we have singled out problem points:
-Forgetting
-Difficulty Starting
-Big Plans
-Too Many Tasks
+For that we have singled out problem points:  
+  - Forgetting
+  - Difficulty Starting
+  - Big Plans
+  - Too Many Tasks
 
-To combat these we have done many tests and surveys to develop an algorithm which helps people to procrastinate less.
+To combat these we have done many tests and surveys to develop an algorithm which helps people to procrastinate less:  
 
 We prioritize up to 3 tasks. For each task added a timer of 1 week starts. After the timer ends we ask if the ask has been successful. 
 If the task has failed the we add a checkpoint/step on the stack. It is important to notice that to reach the checkpoint should be easier than to complete the whole task. The Timer restarts. That means by "failing" the task every week we recursively start building a stack of ever easier getting checkpoints. 
 If the task has been successful we ask if it is the last item on the stack leave it in the priorities accordingly. If the stack is empty we have completed the task.
 
 ![Algorithm](jojojojo.png)
+
+Demo Video : https://youtu.be/ELjI5zZEdUI
 
 ## Technical
 
@@ -50,14 +66,28 @@ The movements of the caterpillars are correspondend to the weekly timer of the p
 
 
 The Flask based WebApplication as well as the steppermotors are powered by one Raspberry Pi Zero. 
-  
+
   
 ![device](devicevisual.jpg)
+
+Video of working functionality : https://youtu.be/1mP7hU-1o6Q
     
+## Installation
+
+To install the project you first need to get a raspberry pi and an operating system on said pi. Second you need clone our github repository. Please make sure that you have python 3 installed. You will be notified about packages you are missing.
+
+## Usage
+
+To run the server please refer to the flask documentation, it may vary depending on your preferences.
+
     
-## Footnotes
+## Credits & Footnotes
 
 This code was developed for a university project with Alfred Jäckel & Michael Migacev from FU Berlin in collaboration with Sewon Kim from KHB Weißensee.
+
+Alfred Jäckel - alfred.thomas.jaeckel@gmail.com  -  https://github.com/alfredjaeckel  
+Michael Migacev - micha.migacev@gmail.com  - https://github.com/MichaelMigacev  
+Sewon Kim - sewon.kim@stud.kh-berlin.de
 
 Our project was featured on:  
 The Homepage - https://www.codingixd.org/lets-get-physical/  
